@@ -26,8 +26,10 @@
     "npm": ">=10.5.2 <11"
   },
   "scripts": {
-    "postinstall": "ts-node setup.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "python3 -m flake8 --show-source --ignore E501 src/",
+    "lint:install": "python3 -m pip install flake8",
+    "postinstall": "ts-node setup.ts"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.5",
