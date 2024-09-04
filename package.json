@@ -1,0 +1,40 @@
+{
+  "name": "pico-portal",
+  "version": "1.0.0",
+  "author": "Cody Tolene <codyatolene@gmail.com>",
+  "description": "Raspbery Pi Pico Picture Frame",
+  "contributors": [],
+  "keywords": [
+    "Raspberry Pi",
+    "Pico",
+    "Captive",
+    "Portal"
+  ],
+  "license": "CC-BY-NC-4.0",
+  "homepage": "https://www.lambda.guru",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodyTolene/Pico-Portal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CodyTolene/Pico-Portal/issues"
+  },
+  "engines": {
+    "node": "^20.13.1",
+    "npm": ">=10.5.2 <11"
+  },
+  "scripts": {
+    "postinstall": "ts-node setup.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.5",
+    "@types/node": "^22.5.1",
+    "adm-zip": "^0.5.16",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

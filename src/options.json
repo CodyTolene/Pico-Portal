@@ -1,0 +1,6 @@
+{
+    "wifi_ssid": "WiFi",
+    "wifi_password": "",
+    "wifi_domain": "setup.local",
+    "display_type": "DISPLAY_PICO_DISPLAY"
+}
