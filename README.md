@@ -19,7 +19,10 @@
 - [Firmware Setup](#firmware-setup)
   - [Connecting](#connecting)
   - [Installing Firmware](#installing-firmware)
-- [Software Installation](#software-installation)
+- [Software](#software)
+  - [Installing Software](#installing-software)
+  - [User Defined Settings](#user-defined-settings)
+  - [Button Functions](#button-functions)
 - [Licensing](#licensing)
 - [Wrapping Up](#wrapping-up)
 
@@ -87,7 +90,9 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Software Installation <a name="software-installation"></a>
+## Software <a name="software"></a>
+
+### Installing Software <a name="installing-software"></a>
 
 > ![Info][img-info] **Note:** This project uses Node.js. Make sure you have Node.js installed on your system before proceeding.
 
@@ -110,6 +115,37 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 5. Unplug your Raspberry Pi Pico W from your computer and connect it to a power source.
 
 6. Your Raspberry Pi Pico W will now boot up and display the Pico Portal interface on the Pimoroni screen.
+
+### User Defined Settings <a name="user-defined-settings"></a>
+
+You can customize the Pico Portal settings by editing the `src/options.py` file. The settings are as follows:
+
+```python
+{
+    "wifi_ssid": "WiFi",
+    "wifi_password": "",
+    "wifi_domain": "setup.local",
+    "display_type": "DISPLAY_PICO_DISPLAY"
+}
+```
+
+| Setting | Description |
+| :------ | :---------- |
+| `wifi_ssid` | The SSID of the Wi-Fi network you want to create. |
+| `wifi_password` | The password for the Wi-Fi network you want to create. Leave blank for an open network. |
+| `wifi_domain` | The domain name for the captive portal. |
+| `display_type` | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` or `DISPLAY_PICO_DISPLAY_2`. |
+
+### Button Functions <a name="button-functions"></a>
+
+The Pico Portal has four buttons that can be used to interact with the device. The button functions are as follows:
+
+| Button | Function |
+| :----- | :------- |
+| `A` | Scroll up one line of the displayed log. Hold to scroll up faster. |
+| `X` | Scroll down one line of the displayed log. Hold to scroll down faster. |
+| `B` | Scroll to the top of the page of the displayed log. |
+| `Y` | Scroll to the bottom of the page of the displayed log. |
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 

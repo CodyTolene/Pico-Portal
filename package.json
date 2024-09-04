@@ -2,7 +2,7 @@
   "name": "pico-portal",
   "version": "1.0.0",
   "author": "Cody Tolene <codyatolene@gmail.com>",
-  "description": "Raspbery Pi Pico Picture Frame",
+  "description": "Raspbery Pi Pico Captive Portal",
   "contributors": [],
   "keywords": [
     "Raspberry Pi",
