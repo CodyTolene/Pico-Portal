@@ -27,10 +27,12 @@
   },
   "scripts": {
     "build": "tsc",
+    "format": "python3 -m black src/",
     "lint": "python3 -m flake8 --show-source --ignore E501 src/",
-    "lint:install": "python3 -m pip install flake8",
+    "lint:install": "python3 -m pip install -r requirements.txt",
     "postinstall": "ts-node setup.ts"
   },
+  "dependencies": {},
   "devDependencies": {
     "@types/adm-zip": "^0.5.5",
     "@types/node": "^22.5.1",

@@ -4,8 +4,8 @@ on:
   push:
   pull_request:
   schedule:
-    # Runs every 30 days at midnight UTC
-    - cron: '0 0 */30 * *'
+    # Runs every 7 days at midnight UTC
+    - cron: '0 0 */7 * *'
 
 jobs:
   build:
@@ -16,8 +16,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install Python Deps
+    - name: Install Python Dependencies
       run: npm run lint:install
 
-    - name: Lint Scripts
+    - name: Lint Python Code
       run: npm run lint

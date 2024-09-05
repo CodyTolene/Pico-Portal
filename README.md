@@ -17,12 +17,16 @@
   - [Purchase](#purchase-device)
   - [Build your own](#build-your-own)
 - [Firmware Setup](#firmware-setup)
-  - [Connecting](#connecting)
+  - [Connecting to PC](#connecting)
   - [Installing Firmware](#installing-firmware)
-- [Software](#software)
+- [Software Setup](#software-setup)
   - [Installing Software](#installing-software)
   - [User Defined Settings](#user-defined-settings)
   - [Button Functions](#button-functions)
+- [Development](#development)
+  - [Requirements](#requirements)
+  - [Development Setup](#development-setup)
+  - [Scripts](#scripts)
 - [Licensing](#licensing)
 - [Wrapping Up](#wrapping-up)
 
@@ -56,7 +60,7 @@ https://www.lambda.guru/shop
 
 ## Firmware Setup <a name="firmware-setup"></a>
 
-### Connecting <a name="connecting"></a>
+### Connecting to PC <a name="connecting"></a>
 
 To connect your Raspberry Pi Pico W to your PC for firmware installation, follow these steps:
 
@@ -90,7 +94,7 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-## Software <a name="software"></a>
+## Software Setup <a name="software-setup"></a>
 
 ### Installing Software <a name="installing-software"></a>
 
@@ -147,6 +151,86 @@ The Pico Portal has four buttons that can be used to interact with the device. T
 | `B` | Scroll to the top of the page of the displayed log. |
 | `Y` | Scroll to the bottom of the page of the displayed log. |
 
+Button layout:
+
+```bash
+ Pico Display       Pico Display 2.0
+|=============|  |=====================|
+|             |  |   (B)         (A)   |
+|  (B)   (A)  |  | ------------------- |
+| ----------- |  | |                 | |
+| |         | |  | |                 | |
+| |         | |  | |                 | |
+| |         | |  | |                 | |
+| |         | |  | |                 | |
+| |         | |  | |                 | |
+| ----------- |  | |                 | |
+|  (Y)   (X)  |  | ------------------- |
+|    (LED)    |  |   (Y)  (LED)  (X)   |
+|=============|  |=====================|
+```
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
+## Development <a name="development"></a>
+
+### Requirements <a name="requirements"></a>
+
+Make sure the following are installed on your system before you begin:
+
+- [Node.js][url-node-js]
+- [Python][url-python]
+- [Thonny IDE][url-thonny-ide]
+
+### Development Setup <a name="development-setup"></a>
+
+Using a terminal, follow these steps to set up the development environment:
+
+1. Fork and clone the repository:
+
+    ```bash
+    git clone
+    ```
+
+2. Install project dependencies. This will install the required Node.js packages for running `setup.ts` which will download the required asset files to the `src/modules` folder. Run in the root of the project:
+
+    ```bash
+    npm install
+    ```
+
+3. Run the python setup script. This will download the files for linting (flake8), formatting (black), and pre-commit hooks (pre-commit). Basically everything we need for enforcing code quality.
+
+    ```bash
+    lint:install
+    ```
+
+4. Program, test, and debug the project using the Thonny IDE.
+
+5. Commit (pre commit hooks should run and verify the code) and push your changes.
+
+6. Create a pull request [here][url-pull-requests].
+
+Thank you for contributing!
+
+### Scripts <a name="scripts"></a>
+
+    <!-- "build": "tsc",
+    "format": "python3 -m black src/",
+    "lint": "python3 -m flake8 --show-source --ignore E501 src/",
+    "lint:install": "python3 -m pip install -r requirements.txt",
+    "postinstall": "ts-node setup.ts" -->
+
+| Script | Description |
+| :----- | :---------- |
+| `format` | Formats the Python code using Black. |
+| `lint` | Lints the Python code using Flake8. |
+| `lint:install` | Installs the required Python packages for linting and formatting. |
+| `postinstall` | Downloads the required asset files to the `src/modules` folder. |
+
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
@@ -167,7 +251,7 @@ This project is licensed under the **Creative Commons Attribution-NonCommercial 
 
 ## Wrapping Up <a name="wrapping-up"></a>
 
-Thanks to all the people and projects that made this possible! I hope you enjoy this project as much as I enjoyed working on it. If you have any questions, please let me know by opening an issue [here][url-new-issue].
+I hope you enjoy this project as much as I enjoyed working on it. If you have any questions, please let me know by opening an issue [here][url-new-issue].
 
 | Type                                                                      | Info                                                                      |
 | :------------------------------------------------------------------------ | :------------------------------------------------------------------------ |
@@ -192,6 +276,10 @@ Cody Tolene
 
 [url-btc]: https://explorer.btc.com/btc/address/bc1qfx3lvspkj0q077u3gnrnxqkqwyvcku2nml86wmudy7yf2u8edmqq0a5vnt
 [url-new-issue]: https://github.com/CodyTolene/Pico-Portal/issues
+[url-node-js]: https://nodejs.org/
+[url-pull-requests]: https://github.com/CodyTolene/Pico-Portal/pulls
+[url-python]: https://www.python.org/
+[url-thonny-ide]: https://thonny.org/
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
