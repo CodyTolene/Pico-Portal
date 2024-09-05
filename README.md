@@ -205,7 +205,12 @@ Using a terminal, follow these steps to set up the development environment:
 3. Run the python setup script. This will download the files for linting (flake8), formatting (black), and pre-commit hooks (pre-commit). Basically everything we need for enforcing code quality.
 
     ```bash
-    lint:install
+    # Install the required packages
+    npm run lint:install
+    # Install the pre-commit hooks
+    pre-commit install
+    # Update the pre-commit hooks
+    pre-commit autoupdate
     ```
 
 4. Program, test, and debug the project using the Thonny IDE.
