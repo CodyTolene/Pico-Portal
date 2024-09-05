@@ -6,7 +6,8 @@
 # =============================================================================
 
 import uasyncio  # type: ignore
-from machine import Pin # type: ignore
+from machine import Pin  # type: ignore
+
 
 class LedService:
     def __init__(self):
@@ -17,8 +18,10 @@ class LedService:
             self.led_pin.toggle()  # Toggle on/off
             await uasyncio.sleep(interval)
 
+
 # Testing
 if __name__ == "__main__":
+
     async def main():
         led = LedService()
         uasyncio.create_task(led.flash())

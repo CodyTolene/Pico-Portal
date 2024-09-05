@@ -6,20 +6,21 @@
 #  will start the services for the device and keep the main loop running.
 # =============================================================================
 
-import uasyncio # type: ignore
+import uasyncio  # type: ignore
 import sys
 import time
 
 # Local packages
 from services.button_service import ButtonService
 from services.messages_service import MessagesService
-from services.options_service import OptionsDisplayTypes, OptionsService, OptionKeys
+from services.options_service import OptionsService
 from services.portal_service import PortalService
 from services.led_service import LedService
 
 # Ensure packages can be imported
 sys.path.append("/modules")
 sys.path.append("/services")
+
 
 async def main():
     # Dependencies
@@ -37,6 +38,7 @@ async def main():
     # Keep the main loop running
     while True:
         await uasyncio.sleep(1)
+
 
 if __name__ == "__main__":
     time.sleep(1)

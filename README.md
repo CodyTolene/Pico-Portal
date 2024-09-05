@@ -223,15 +223,9 @@ Thank you for contributing!
 
 ### Scripts <a name="scripts"></a>
 
-    <!-- "build": "tsc",
-    "format": "python3 -m black src/",
-    "lint": "python3 -m flake8 --show-source --ignore E501 src/",
-    "lint:install": "python3 -m pip install -r requirements.txt",
-    "postinstall": "ts-node setup.ts" -->
-
 | Script | Description |
 | :----- | :---------- |
-| `format` | Formats the Python code using Black. |
+| `format` | Formats the Python code using [Black][url-black]. |
 | `lint` | Lints the Python code using Flake8. |
 | `lint:install` | Installs the required Python packages for linting and formatting. |
 | `postinstall` | Downloads the required asset files to the `src/modules` folder. |
@@ -279,6 +273,7 @@ Cody Tolene
 
 <!-- LINK REFERENCES -->
 
+[url-black]: https://pypi.org/project/black/
 [url-btc]: https://explorer.btc.com/btc/address/bc1qfx3lvspkj0q077u3gnrnxqkqwyvcku2nml86wmudy7yf2u8edmqq0a5vnt
 [url-new-issue]: https://github.com/CodyTolene/Pico-Portal/issues
 [url-node-js]: https://nodejs.org/

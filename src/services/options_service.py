@@ -7,15 +7,18 @@
 
 import json
 
+
 class OptionKeys:
     WIFI_SSID = "wifi_ssid"
     WIFI_PASSWORD = "wifi_password"
     WIFI_DOMAIN = "wifi_domain"
     DISPLAY_TYPE = "display_type"
 
+
 class OptionsDisplayTypes:
     DISPLAY_PICO_DISPLAY = "DISPLAY_PICO_DISPLAY"
     DISPLAY_PICO_DISPLAY_2 = "DISPLAY_PICO_DISPLAY_2"
+
 
 class OptionsService:
     def __init__(self):
@@ -42,7 +45,7 @@ class OptionsService:
             with open(self.json_file_path, "w") as f:
                 json.dump(options, f)
         except OSError as e:
-                print (f"Error writing to {self.json_file_path}: {e}")
+            print(f"Error writing to {self.json_file_path}: {e}")
 
     def get_option(self, key: OptionKeys, default=None):
         return self.options.get(key, default)

@@ -2,7 +2,7 @@
 #  Project: Pico Portal
 #  License: CC-BY-NC-4.0
 #  Repository: https://github.com/CodyTolene/Pico-Portal
-#  Description: A service to handle button inputs and trigger actions based on 
+#  Description: A service to handle button inputs and trigger actions based on
 #  the button presses.
 # =============================================================================
 
@@ -16,6 +16,7 @@ from services.messages_service import MessagesService
 # Ensure packages can be imported
 sys.path.append("../modules")
 sys.path.append("../services")
+
 
 class ButtonService:
     def __init__(self, messages: MessagesService):
@@ -103,21 +104,22 @@ if __name__ == "__main__":
         await messages.display("Normal (gray) message, no timestamp.", timestamp=False)
 
         # Test an extra long string that has no spaces
-        await messages.display("ThisIsALongStringThatShouldBeWrappedIntoMultipleLinesBecauseItDoesNotHaveSpaces", log=False)
+        await messages.display(
+            "ThisIsALongStringThatShouldBeWrappedIntoMultipleLinesBecauseItDoesNotHaveSpaces",
+            log=False,
+        )
 
         # Simulate messages displaying until scrollbar appears
         for i in range(20):
-            await messages.display(f"Message {i+1}: Lorem ipsum dolor sit amet")
+            await messages.display(f"Message {i + 1}: Lorem ipsum dolor sit amet")
 
         # Start the scroll test
-        await messages.display(f"Scroll test starting...", log=False)
+        await messages.display("Scroll test starting...", log=False)
         await uasyncio.sleep(1)
 
-        # Keep the event loop running indefinitely to continue processing button inputs
+        # Keep the event loop running indefinitely to continue processing
+        # button inputs
         while True:
             await uasyncio.sleep(1)
 
     uasyncio.run(main())
-
-
-

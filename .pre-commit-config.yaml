@@ -1,11 +1,15 @@
 repos:
+  # black
   - repo: https://github.com/psf/black
     rev: 24.8.0
     hooks:
       - id: black
-        args: ['src']
+        args: ['src/']
+        exclude: 'src/modules/.*'
+  # flake8
   - repo: https://github.com/PyCQA/flake8
     rev: 7.1.1
     hooks:
       - id: flake8
-        args: ['--show-source', '--ignore', 'E501', 'src/']
+        args: ['--show-source', '--ignore', 'E501']
+        exclude: 'src/modules/.*'

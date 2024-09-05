@@ -2,7 +2,7 @@
 #  Project: Pico Portal
 #  License: CC-BY-NC-4.0
 #  Repository: https://github.com/CodyTolene/Pico-Portal
-#  Description: A service for displaying messages on the Pico Portal screen, 
+#  Description: A service for displaying messages on the Pico Portal screen,
 #  with support for timestamps, colors, and scrolling. Messages are also logged
 #  to a log.txt file and output to the console.
 # =============================================================================
@@ -18,6 +18,7 @@ from services.options_service import OptionsDisplayTypes, OptionKeys, OptionsSer
 # Ensure packages can be imported
 sys.path.append("../modules")
 sys.path.append("../services")
+
 
 class MessagesService:
     def __init__(self, options: OptionsService):
@@ -43,12 +44,15 @@ class MessagesService:
         self.margin = 10
 
         # Define max_lines for the selected display
-        self.max_lines = (self.graphics.get_bounds()[1] - self.margin * 2) // self.line_height
+        self.max_lines = (
+            self.graphics.get_bounds()[1] - self.margin * 2
+        ) // self.line_height
 
         self.messages = []
         self.scroll_position = 0
 
-        # Use system font that supports lowercase and better character distinction
+        # Use system font that supports lowercase and better character
+        # distinction
         self.graphics.set_font("bitmap8")
 
     def calculate_total_lines(self):
@@ -67,20 +71,29 @@ class MessagesService:
         for word in message.split():
             word_length = self.graphics.measure_text(word, scale=1)
             if current_line_length + word_length <= max_width:
-                current_line_length += word_length + self.graphics.measure_text(' ', scale=1)
+                current_line_length += word_length + self.graphics.measure_text(
+                    " ", scale=1
+                )
             else:
                 wrapped_lines += 1
-                current_line_length = word_length + self.graphics.measure_text(' ', scale=1)
+                current_line_length = word_length + self.graphics.measure_text(
+                    " ", scale=1
+                )
 
         return wrapped_lines
 
     async def display(self, message, log=True, timestamp=True, color=None):
         if timestamp:
-            # Prepend the current date and time to the message in the format "2024-09-02 18:58:08"
+            # Prepend the current date and time to the message in the format
+            # "2024-09-02 18:58:08"
             current_time = utime.localtime()
             formatted_time = "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(
-                current_time[0], current_time[1], current_time[2],
-                current_time[3], current_time[4], current_time[5]
+                current_time[0],
+                current_time[1],
+                current_time[2],
+                current_time[3],
+                current_time[4],
+                current_time[5],
             )
             # Display timestamp and message on separate lines for the screen
             display_message = f"[{formatted_time}]\n{message}"
@@ -89,7 +102,7 @@ class MessagesService:
         else:
             display_message = message
             log_message = message
-        
+
         # Set the color, default to GRAY if not provided
         if color is None:
             color = self.GRAY
@@ -128,7 +141,13 @@ class MessagesService:
                     # Extract timestamp and rest of the message
                     timestamp, rest = msg.split("\n", 1)
                     self.graphics.set_pen(self.BLACK)
-                    self.graphics.text(timestamp, self.margin, y, wordwrap=self.graphics.get_bounds()[0] - self.margin * 2, scale=1)
+                    self.graphics.text(
+                        timestamp,
+                        self.margin,
+                        y,
+                        wordwrap=self.graphics.get_bounds()[0] - self.margin * 2,
+                        scale=1,
+                    )
                     y += self.line_height  # Move to next line after timestamp
                     msg = rest  # Remaining message text
 
@@ -177,7 +196,9 @@ class MessagesService:
             return  # No need to draw a scroll bar if content fits within the screen
 
         scroll_bar_height = max(int(display_height * (self.max_lines / total_lines)), 5)
-        scroll_bar_position = int((display_height - scroll_bar_height) * (self.scroll_position / (total_lines - self.max_lines)))
+        scrollable_area_height = display_height - scroll_bar_height
+        scroll_ratio = self.scroll_position / (total_lines - self.max_lines)
+        scroll_bar_position = int(scrollable_area_height * scroll_ratio)
 
         # Draw the scroll bar
         self.graphics.set_pen(self.BLACK)
@@ -218,8 +239,10 @@ class MessagesService:
         except Exception as e:
             print(f"Failed to log message: {e}")
 
+
 # Testing
 if __name__ == "__main__":
+
     async def main():
         options = OptionsService()
         display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
@@ -235,14 +258,17 @@ if __name__ == "__main__":
         await messages.display("Normal (gray) message, no timestamp.", timestamp=False)
 
         # Test an extra long string that has no spaces
-        await messages.display("ThisIsALongStringThatShouldBeWrappedIntoMultipleLinesBecauseItDoesNotHaveSpaces", log=False)
+        await messages.display(
+            "ThisIsALongStringThatShouldBeWrappedIntoMultipleLinesBecauseItDoesNotHaveSpaces",
+            log=False,
+        )
 
         # Simulate messages displaying until scrollbar appears
         for i in range(20):
-            await messages.display(f"Message {i+1}: Lorem ipsum dolor sit amet")
+            await messages.display(f"Message {i + 1}: Lorem ipsum dolor sit amet")
 
         # Start the scroll test
-        await messages.display(f"Scroll test starting...", log=False)
+        await messages.display("Scroll test starting...", log=False)
         await uasyncio.sleep(1)
 
         # Scroll up x25
@@ -265,5 +291,3 @@ if __name__ == "__main__":
         messages.scroll_bottom()
 
     uasyncio.run(main())
-
-

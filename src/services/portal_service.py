@@ -7,7 +7,7 @@
 #  server to allow users to connect to the device to be served web content.
 # =============================================================================
 
-import uasyncio # type: ignore
+import uasyncio  # type: ignore
 import sys
 
 # Third party packages
@@ -23,6 +23,7 @@ from services.options_service import OptionKeys, OptionsService
 sys.path.append("../modules")
 sys.path.append("../services")
 
+
 class PortalService:
     def __init__(self, options: OptionsService, messages: MessagesService):
         # Dependencies
@@ -36,12 +37,14 @@ class PortalService:
 
         # Initialization
         self.register_routes()
-    
+
     async def start_access_point(self):
         await self.messages.display("Starting Access Point...")
         ap = access_point(self.ssid, self.password)
-        await self.messages.display(f"AP \"{ self.ssid }\" started...")
-        await self.messages.display(f"AP Password: {self.password if self.password else 'None'}")
+        await self.messages.display(f'AP "{self.ssid}" started...')
+        await self.messages.display(
+            f"AP Password: {self.password if self.password else 'None'}"
+        )
         self.ip = ap.ifconfig()[0]
         await self.messages.display(f"AP IP: {self.ip}")
 
