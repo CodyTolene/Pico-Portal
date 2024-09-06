@@ -13,6 +13,7 @@
 
 ## Index <a name="index"></a>
 
+- [Preview images](#previews)
 - [Hardware](#hardware)
   - [Purchase](#purchase-device)
   - [Build your own](#build-your-own)
@@ -34,6 +35,16 @@
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
+## Preview images <a name="previews"></a>
+
+- Coming soon.
+
+<p align="right">[ <a href="#index">Index</a> ]</p>
+
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------->
+
 ## Hardware <a name="hardware"></a>
 
 ### Purchase device <a name="purchase-device"></a>
@@ -42,7 +53,9 @@ You can purchase a fully assembled Pico-Portal device exclusively from the Lambd
 
 https://www.lambda.guru/shop
 
-### Build your own (parts list) <a name="build-your-own"></a>
+### Build your own <a name="build-your-own"></a>
+
+Parts list:
 
 | Part | Description | Link |
 | :--- | :---------- | :--- |
@@ -241,6 +254,12 @@ Thank you for contributing!
 This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** License. See the [LICENSE.md](LICENSE.md) file for the pertaining license text.
 
 `SPDX-License-Identifier: CC-BY-NC-4.0`
+
+Basically, everything is free for you to use personally. I just ask that you don't sell this software. If you want to use it for commercial purposes, please contact me first and we can work something out.
+
+Feel free to build this project for yourself, your friends, or your family etc! You can also purchase this device from me directly fully assembled with a case [here](#purchase-device).
+
+Thank you for your understanding!
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
