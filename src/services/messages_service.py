@@ -23,6 +23,7 @@ sys.path.append("../services")
 class MessagesService:
     def __init__(self, options: OptionsService):
         display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
+        self.enable_timestamps: bool = options.get_option(OptionKeys.ENABLE_TIMESTAMPS)
 
         # Initialize the display based on the display_type
         if display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY:
@@ -82,8 +83,8 @@ class MessagesService:
 
         return wrapped_lines
 
-    async def display(self, message, log=True, timestamp=True, color=None):
-        if timestamp:
+    async def display(self, message, log=True, color=None):
+        if self.enable_timestamps:
             # Prepend the current date and time to the message in the format
             # "2024-09-02 18:58:08"
             current_time = utime.localtime()
@@ -108,7 +109,7 @@ class MessagesService:
             color = self.GRAY
 
         # Add the display message and its color to the list of messages
-        self.messages.append((display_message, color))
+        self.messages.append((f"> {display_message}", color))
 
         # Calculate the total number of lines in all messages
         total_lines = self.calculate_total_lines()
@@ -255,7 +256,6 @@ if __name__ == "__main__":
         await messages.display("Success (green) message.", color=GREEN)
         await messages.display("Error (red) message!", color=RED)
         await messages.display("Normal (gray) message.")
-        await messages.display("Normal (gray) message, no timestamp.", timestamp=False)
 
         # Test an extra long string that has no spaces
         await messages.display(

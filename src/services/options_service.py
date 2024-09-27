@@ -13,6 +13,7 @@ class OptionKeys:
     WIFI_PASSWORD = "wifi_password"
     WIFI_DOMAIN = "wifi_domain"
     DISPLAY_TYPE = "display_type"
+    ENABLE_TIMESTAMPS = "enable_timestamps"
 
 
 class OptionsDisplayTypes:
@@ -60,4 +61,5 @@ class OptionsService:
             OptionKeys.WIFI_PASSWORD: "",
             OptionKeys.WIFI_DOMAIN: "setup.local",
             OptionKeys.DISPLAY_TYPE: OptionsDisplayTypes.DISPLAY_PICO_DISPLAY,
+            OptionKeys.ENABLE_TIMESTAMPS: False,
         }

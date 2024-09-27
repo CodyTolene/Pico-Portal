@@ -34,8 +34,7 @@ async def main():
     portal = PortalService(options, messages)
 
     # Display the current version of the software
-    messages.display("Pico Portal v0.1.0")
-    await messages.display(f"Pico Portal v{VERSION}")
+    await messages.display(f"Starting Pico Portal v{VERSION}")
 
     # Run
     uasyncio.create_task(led.flash())
