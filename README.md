@@ -49,21 +49,41 @@
 
 ### Purchase device <a name="purchase-device"></a>
 
-You can purchase a fully assembled Pico-Portal device exclusively from the Lambda shop here: 
+You can purchase a fully assembled Pico Portal device from Lambda Guru, or 3D-printed enclosures/cases if you'd like to build your own:
 
-https://www.lambda.guru/shop
+https://www.lambda.guru/
+
+Thank you for all of your support, I spent a long time working on this project and plan to support it long term. Really hoping the community joins in and helps me improve it from here. It's important to me that this project stays accessible to everyone, so please keep this software free and open source. If you have any questions, please let me know by opening an issue [here][url-new-issue].
+
+> ![Info][img-info] **Note:** The 3D print files are available on [Lambda Guru][url-lambda-guru] for a small fee (the first time I've ever charged for models, see my free collection [here][url-free-3d]). The enclosures/cases on Lambda Guru are specifically designed for the parts listed below.
+
+> ![Info][img-info] **Note:** If you'd like to do your own custom build there are other alternative 3D printable cases out there on websites such as [thingiverse][url-thingiverse]. Be sure to show off a picture of your build by submitting a ticket [here][url-new-issue]! Your images will likely be shared on places like the Lambda Guru website or this repository for the community to see!
 
 ### Build your own <a name="build-your-own"></a>
 
-Parts list:
+To replicate the original Pico Portal devices found on [Lambda Guru][url-lambda-guru], you will need the following:
 
-| Part | Description | Link |
-| :--- | :---------- | :--- |
-| Raspberry Pi Pico W | The Raspberry Pi Pico W is a low-cost, high-performance microcontroller board built around the RP2040 chip. It features a dual-core ARM Cortex-M0+ processor with 264KB of SRAM and 2MB of flash memory. The Pico W also includes a built-in Wi-Fi module, making it an excellent choice for IoT projects. | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
-| Pimoroni Pico Display Pack | A lovely, bright 18-bit capable 240x135 pixel IPS display and fits the Pico perfectly. We've surrounded it with four tactile buttons so you can easily interface your Pico with your human fingers and an RGB LED that you can use as an indicator, for notifications or just for adding extra rainbows. | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack) |
-| Pimoroni Pico Display Pack 2.0 | This 18-bit capable 320x240 pixel IPS display adheres majestically to the back of your Pico, and has lush colours and great viewing angles. Just like our original Display Pack, we've surrounded it with four tactile buttons so you can use your human fingers (or other non-human appendages) to interface with your Pico. There's also an RGB LED that you can use as an indicator, for notifications or just for adding extra rainbows. | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack-2-0) |
+**Pico Portal XL** parts list:
 
-> ![Info][img-info] **Note:** A screen is optional but highly recommended for this project. The Pimoroni screen is a great choice for this project as it fits the Raspberry Pi Pico W perfectly and is easy to use. You can run the project without a screen, but you will not be able to see the real-time connection information.
+| Part | Link |
+| :--- | :--- |
+| Raspberry Pi Pico W | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
+| Pimoroni Pico Display Pack 2.0 | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack-2-0) |
+| 3D Printed Enclosure (XL) | [Lambda Guru](https://www.lambda.guru/) |
+| 1600 mAh LiPo Battery | — |
+| LiPo SHIM | [Pimoroni](https://shop.pimoroni.com/products/pico-lipo-shim?variant=32369543086163) |
+
+**Pico Portal Mini** parts list:
+
+| Part | Link |
+| :--- | :--- |
+| Raspberry Pi Pico W | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
+| Pimoroni Pico Display Pack | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack) |
+| 3D Printed Enclosure (Mini) | [Lambda Guru](https://www.lambda.guru/) |
+| 600 mAh LiPo Battery | — |
+| Pico-UPS-B | [Waveshare](https://www.waveshare.com/pico-ups-b.htm) |
+
+> ![Info][img-info] **Note:** This project can be ran standalone on a Raspberry Pi Pico W! Additional hardware is only required for the portable version.
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -143,6 +163,7 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
     "wifi_password": "",
     "wifi_domain": "setup.local",
     "display_type": "DISPLAY_PICO_DISPLAY"
+    "enable_timestamps": False,
 }
 ```
 
@@ -152,6 +173,7 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 | `wifi_password` | The password for the Wi-Fi network you want to create. Leave blank for an open network. |
 | `wifi_domain` | The domain name for the captive portal. |
 | `display_type` | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` or `DISPLAY_PICO_DISPLAY_2`. |
+| `enable_timestamps` | Enable or disable timestamps for the log. |
 
 ### Button Functions <a name="button-functions"></a>
 
@@ -294,10 +316,13 @@ Cody Tolene
 
 [url-black]: https://pypi.org/project/black/
 [url-btc]: https://explorer.btc.com/btc/address/bc1qfx3lvspkj0q077u3gnrnxqkqwyvcku2nml86wmudy7yf2u8edmqq0a5vnt
+[url-free-3d]: https://github.com/CodyTolene/3D-Printing
+[url-lambda-guru]: https://www.lambda.guru/
 [url-new-issue]: https://github.com/CodyTolene/Pico-Portal/issues
 [url-node-js]: https://nodejs.org/
 [url-pull-requests]: https://github.com/CodyTolene/Pico-Portal/pulls
 [url-python]: https://www.python.org/
+[url-thingiverse]: https://www.thingiverse.com/
 [url-thonny-ide]: https://thonny.org/
 
 <!---------------------------------------------------------------------------->

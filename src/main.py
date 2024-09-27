@@ -33,15 +33,20 @@ async def main():
     buttons = ButtonService(messages)
     portal = PortalService(options, messages)
 
-    # Display the current version of the software
+    # Display the current version of the software on screen
     await messages.display(f"Starting Pico Portal v{VERSION}")
 
-    # Run
+    # Flash the LED on and off every 3 seconds, indefinitely
+    # Useful for when no screen is connected to the Pico Portal
     uasyncio.create_task(led.flash())
+
+    # Start Pico Portal services
     uasyncio.create_task(portal.run())
+
+    # Handle the buttons and trigger actions based on button presses
     uasyncio.create_task(buttons.run())
 
-    # Keep the main loop running
+    # Keep the application running indefinitely while the power is on
     while True:
         await uasyncio.sleep(1)
 

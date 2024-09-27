@@ -246,9 +246,8 @@ if __name__ == "__main__":
 
     async def main():
         options = OptionsService()
-        display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
 
-        messages = MessagesService(display_type)
+        messages = MessagesService(options)
         GREEN = messages.GREEN
         RED = messages.RED
 
