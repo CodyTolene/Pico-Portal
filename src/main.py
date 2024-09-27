@@ -21,6 +21,9 @@ from services.led_service import LedService
 sys.path.append("/modules")
 sys.path.append("/services")
 
+# Version
+VERSION = "1.0.0"
+
 
 async def main():
     # Dependencies
@@ -29,6 +32,10 @@ async def main():
     messages = MessagesService(options)
     buttons = ButtonService(messages)
     portal = PortalService(options, messages)
+
+    # Display the current version of the software
+    messages.display("Pico Portal v0.1.0")
+    await messages.display(f"Pico Portal v{VERSION}")
 
     # Run
     uasyncio.create_task(led.flash())
