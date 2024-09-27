@@ -49,11 +49,9 @@
 
 ### Purchase device <a name="purchase-device"></a>
 
-You can purchase a fully assembled Pico Portal device from Lambda Guru, or 3D-printed enclosures/cases if you'd like to build your own:
+You can purchase a fully assembled Pico Portal XL, Pico Portal Mini, or a 3D-printed enclosure/case for your own build from Lambda Guru:
 
-https://www.lambda.guru/
-
-Thank you for all of your support, I spent a long time working on this project and plan to support it long term. Really hoping the community joins in and helps me improve it from here. It's important to me that this project stays accessible to everyone, so please keep this software free and open source. If you have any questions, please let me know by opening an issue [here][url-new-issue].
+🔗 https://www.lambda.guru/
 
 > ![Info][img-info] **Note:** The 3D print files are available on [Lambda Guru][url-lambda-guru] for a small fee (the first time I've ever charged for models, see my free collection [here][url-free-3d]). The enclosures/cases on Lambda Guru are specifically designed for the parts listed below.
 
@@ -291,7 +289,7 @@ Thank you for your understanding!
 
 ## Wrapping Up <a name="wrapping-up"></a>
 
-I hope you enjoy this project as much as I enjoyed working on it. If you have any questions, please let me know by opening an issue [here][url-new-issue].
+Thank you for all of your support, I spent a long time working on this project and plan to support it long term. Really hoping the community joins in and helps me improve it from here. It's important to me that this project stays accessible to everyone, so please keep this software free and open source. If you have any questions, please let me know by opening an issue [here][url-new-issue].
 
 | Type                                                                      | Info                                                                      |
 | :------------------------------------------------------------------------ | :------------------------------------------------------------------------ |
