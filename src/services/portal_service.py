@@ -18,6 +18,7 @@ from modules.phew.template import render_template
 # Local packages
 from services.messages_service import MessagesService
 from services.options_service import OptionKeys, OptionsService
+from services.pico_display_led_service import PicoDisplayLedService
 
 # Ensure packages can be imported
 sys.path.append("../modules")
@@ -25,9 +26,15 @@ sys.path.append("../services")
 
 
 class PortalService:
-    def __init__(self, options: OptionsService, messages: MessagesService):
+    def __init__(
+        self,
+        options: OptionsService,
+        messages: MessagesService,
+        pico_display_led: PicoDisplayLedService,
+    ):
         # Dependencies
         self.messages = messages
+        self.pico_display_led = pico_display_led
 
         # Properties
         self.domain = options.get_option(OptionKeys.WIFI_DOMAIN)
@@ -61,6 +68,7 @@ class PortalService:
 
     async def start_web_server(self):
         await self.messages.display("Web Server started...")
+        await self.pico_display_led.set_color("GREEN")
         server.run()
 
     async def run(self):

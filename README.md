@@ -162,6 +162,7 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
     "wifi_domain": "setup.local",
     "display_type": "DISPLAY_PICO_DISPLAY"
     "enable_timestamps": False,
+    "led_brightness": 0.25
 }
 ```
 
@@ -172,6 +173,7 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 | `wifi_domain` | The domain name for the captive portal. |
 | `display_type` | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` or `DISPLAY_PICO_DISPLAY_2`. |
 | `enable_timestamps` | Enable or disable timestamps for the log. |
+| `led_brightness` | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.25 (25%), 0 for off. |
 
 ### Button Functions <a name="button-functions"></a>
 

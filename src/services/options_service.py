@@ -8,17 +8,18 @@
 import json
 
 
-class OptionKeys:
-    WIFI_SSID = "wifi_ssid"
-    WIFI_PASSWORD = "wifi_password"
-    WIFI_DOMAIN = "wifi_domain"
-    DISPLAY_TYPE = "display_type"
-    ENABLE_TIMESTAMPS = "enable_timestamps"
-
-
 class OptionsDisplayTypes:
     DISPLAY_PICO_DISPLAY = "DISPLAY_PICO_DISPLAY"
     DISPLAY_PICO_DISPLAY_2 = "DISPLAY_PICO_DISPLAY_2"
+
+
+class OptionKeys:
+    WIFI_SSID: str = "wifi_ssid"  # Default: "WiFi"
+    WIFI_PASSWORD: str = "wifi_password"  # Default: ""
+    WIFI_DOMAIN: str = "wifi_domain"  # Default: "setup.local"
+    DISPLAY_TYPE: OptionsDisplayTypes = "display_type"  # Default: DISPLAY_PICO_DISPLAY
+    ENABLE_TIMESTAMPS: bool = "enable_timestamps"  # Default: false
+    LED_BRIGHTNESS = "led_brightness"  # Default: 0.25 (0.0 - 1.0)
 
 
 class OptionsService:
@@ -62,4 +63,5 @@ class OptionsService:
             OptionKeys.WIFI_DOMAIN: "setup.local",
             OptionKeys.DISPLAY_TYPE: OptionsDisplayTypes.DISPLAY_PICO_DISPLAY,
             OptionKeys.ENABLE_TIMESTAMPS: False,
+            OptionKeys.LED_BRIGHTNESS: 0.25,
         }

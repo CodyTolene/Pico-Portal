@@ -13,9 +13,10 @@ import time
 # Local packages
 from services.button_service import ButtonService
 from services.messages_service import MessagesService
+from services.onboard_led_service import OnboardLedService
 from services.options_service import OptionsService
+from services.pico_display_led_service import PicoDisplayLedService
 from services.portal_service import PortalService
-from services.led_service import LedService
 
 # Ensure packages can be imported
 sys.path.append("/modules")
@@ -27,18 +28,22 @@ VERSION = "1.0.0"
 
 async def main():
     # Dependencies
-    led = LedService()
+    onboard_led = OnboardLedService()
     options = OptionsService()
+    pico_display_led = PicoDisplayLedService(options)
     messages = MessagesService(options)
     buttons = ButtonService(messages)
-    portal = PortalService(options, messages)
+    portal = PortalService(options, messages, pico_display_led)
 
     # Display the current version of the software on screen
     await messages.display(f"Starting Pico Portal v{VERSION}")
 
-    # Flash the LED on and off every 3 seconds, indefinitely
+    # Make sure the display LED is off initially
+    await pico_display_led.set_color("OFF")
+
+    # Flash the onboard LED on and off every 3 seconds, indefinitely
     # Useful for when no screen is connected to the Pico Portal
-    uasyncio.create_task(led.flash())
+    uasyncio.create_task(onboard_led.flash())
 
     # Start Pico Portal services
     uasyncio.create_task(portal.run())
