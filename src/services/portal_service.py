@@ -46,29 +46,30 @@ class PortalService:
         self.register_routes()
 
     async def start_access_point(self):
-        await self.messages.display("Starting Access Point...")
+        await self.messages.display("Starting access point")
         ap = access_point(self.ssid, self.password)
-        await self.messages.display(f'AP "{self.ssid}" started...')
-        await self.messages.display(
-            f"AP Password: {self.password if self.password else 'None'}"
-        )
+        await self.messages.display(f'AP "{self.ssid}" started')
+        await self.messages.display("AP Password:")
+        await self.messages.display(f"{self.password if self.password else 'None'}")
         self.ip = ap.ifconfig()[0]
-        await self.messages.display(f"AP IP: {self.ip}")
+        await self.messages.display("AP IP:")
+        await self.messages.display(self.ip)
 
     async def start_dns_server(self):
-        await self.messages.display("Starting DNS server...")
-        await self.messages.display(f"Domain Name: {self.domain}")
+        await self.messages.display("Starting DNS server")
+        await self.messages.display("Domain:")
+        await self.messages.display(self.domain)
 
         if self.ip:
             dns.run_catchall(self.ip)
-            await self.messages.display("DNS server started...")
+            await self.messages.display("DNS server started")
         else:
             await self.messages.display("Error: Access Point not started")
             raise Exception("Access Point not started")
 
     async def start_web_server(self):
-        await self.messages.display("Web Server started...")
         await self.pico_display_led.set_color("GREEN")
+        await self.messages.display("Pico Portal started")
         server.run()
 
     async def run(self):

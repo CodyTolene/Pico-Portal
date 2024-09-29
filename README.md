@@ -170,8 +170,8 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 | :------ | :---------- |
 | `wifi_ssid` | The SSID of the Wi-Fi network you want to create. |
 | `wifi_password` | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Also cycle the power on and off if you change the password to fully update it. Leave blank for an open network (default). |
-| `wifi_domain` | The domain name for the captive portal. |
-| `display_type` | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` or `DISPLAY_PICO_DISPLAY_2`. |
+| `wifi_domain` | The domain name for the captive portal displayed on the connecting device. |
+| `display_type` | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`. If you don't have a screen, you can use either. |
 | `enable_timestamps` | Enable or disable timestamps for the log. |
 | `led_brightness` | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.25 (25%), 0 for off. |
 

@@ -36,10 +36,10 @@ async def main():
     portal = PortalService(options, messages, pico_display_led)
 
     # Display the current version of the software on screen
-    await messages.display(f"Starting Pico Portal v{VERSION}")
+    await messages.display(f"Pico Portal v{VERSION}")
 
-    # Make sure the display LED is off initially
-    await pico_display_led.set_color("OFF")
+    # Set the display LED to white while starting up
+    await pico_display_led.set_color("WHITE")
 
     # Flash the onboard LED on and off every 3 seconds, indefinitely
     # Useful for when no screen is connected to the Pico Portal
