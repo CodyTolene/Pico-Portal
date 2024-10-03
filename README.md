@@ -45,6 +45,10 @@
 
 ![Pico Portal Mini][img-pico-portal-mini-red]
 
+### Software
+
+![Software Demo][img-software-demo]
+
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
 <!---------------------------------------------------------------------------->
@@ -318,6 +322,7 @@ Cody Tolene
 [img-info]: .github/images/ng-icons/info.svg
 [img-pico-portal-mini-red]: .github/images/previews/mini_red.png
 [img-pico-portal-xl-blue]: .github/images/previews/xl_blue.png
+[img-software-demo]: .github/images/previews/software_demo.gif
 [img-warning]: .github/images/ng-icons/warn.svg
 
 <!-- LINK REFERENCES -->
