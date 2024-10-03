@@ -1,0 +1,8 @@
+{
+    "wifi_ssid": "WiFi",
+    "wifi_password": "",
+    "wifi_domain": "setup.local",
+    "display_type": "DISPLAY_PICO_DISPLAY",
+    "enable_timestamps": false,
+    "led_brightness": 0.25
+}
