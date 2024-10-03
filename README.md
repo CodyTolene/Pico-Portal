@@ -37,7 +37,13 @@
 
 ## Preview images <a name="previews"></a>
 
-- Coming soon.
+### Pico Portal XL
+
+![Pico Portal XL][img-pico-portal-xl-blue]
+
+### Pico Portal Mini
+
+![Pico Portal Mini][img-pico-portal-mini-red]
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -310,6 +316,8 @@ Cody Tolene
 <!-- IMAGE REFERENCES -->
 
 [img-info]: .github/images/ng-icons/info.svg
+[img-pico-portal-mini-red]: .github/images/previews/mini_red.png
+[img-pico-portal-xl-blue]: .github/images/previews/xl_blue.png
 [img-warning]: .github/images/ng-icons/warn.svg
 
 <!-- LINK REFERENCES -->
