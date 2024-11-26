@@ -73,23 +73,23 @@ To replicate the original Pico Portal devices found on [Lambda Guru][url-lambda-
 
 **Pico Portal XL** parts list:
 
-| Part | Link |
-| :--- | :--- |
-| Raspberry Pi Pico W | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
-| Pimoroni Pico Display Pack 2.0 | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack-2-0) |
-| 3D Printed Enclosure (XL) | [Lambda Guru](https://www.lambda.guru/) |
-| 1600 mAh LiPo Battery | — |
-| LiPo SHIM | [Pimoroni](https://shop.pimoroni.com/products/pico-lipo-shim?variant=32369543086163) |
+| Part                           | Link                                                                                 |
+| :----------------------------- | :----------------------------------------------------------------------------------- |
+| Raspberry Pi Pico W            | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
+| Pimoroni Pico Display Pack 2.0 | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack-2-0)                 |
+| 3D Printed Enclosure (XL)      | [Lambda Guru](https://www.lambda.guru/)                                              |
+| 1600 mAh LiPo Battery          | —                                                                                    |
+| LiPo SHIM                      | [Pimoroni](https://shop.pimoroni.com/products/pico-lipo-shim?variant=32369543086163) |
 
 **Pico Portal Mini** parts list:
 
-| Part | Link |
-| :--- | :--- |
-| Raspberry Pi Pico W | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
-| Pimoroni Pico Display Pack | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack) |
-| 3D Printed Enclosure (Mini) | [Lambda Guru](https://www.lambda.guru/) |
-| 600 mAh LiPo Battery | — |
-| Pico-UPS-B | [Waveshare](https://www.waveshare.com/pico-ups-b.htm) |
+| Part                        | Link                                                                                 |
+| :-------------------------- | :----------------------------------------------------------------------------------- |
+| Raspberry Pi Pico W         | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
+| Pimoroni Pico Display Pack  | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack)                     |
+| 3D Printed Enclosure (Mini) | [Lambda Guru](https://www.lambda.guru/)                                              |
+| 600 mAh LiPo Battery        | —                                                                                    |
+| Pico-UPS-B                  | [Waveshare](https://www.waveshare.com/pico-ups-b.htm)                                |
 
 > ![Info][img-info] **Note:** This project can be ran standalone on a Raspberry Pi Pico W! Additional hardware is only required for the portable version.
 
@@ -142,10 +142,10 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 > ![Info][img-info] **Note:** This project uses Node.js. Make sure you have Node.js installed on your system before proceeding.
 
 1. Install project dependencies:
-    
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 
 2. Install Thonny IDE:
 
@@ -155,11 +155,19 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 
 4. Copy the contents from `src/` (this repo) to the root of your Raspberry Pi Pico W using the Thonny IDE.
 
-    > ![Info][img-info] **Note:** Be sure the "src/modules/" is copied and that the folder exists.
+   > ![Info][img-info] **Note:** Be sure the "src/modules/" is copied and that the folder exists.
 
-5. Unplug your Raspberry Pi Pico W from your computer and connect it to a power source.
+5. Replace the files in the `templates/` directory with the desired template files ("index.html", "success.html", etc.).
 
-6. Your Raspberry Pi Pico W will now boot up and display the Pico Portal interface on the Pimoroni screen.
+   > ![Info][img-info] You can add/update request handlers in the file `src/services/portal_service.py`.
+
+   > ![Info][img-info] **Attention Security Professionals:** Security researchers, penetration testers, and ethical hackers can explore the [Red Portals repository][url-red-portals] to learn how to use this tool for testing rogue access points and enhancing network defenses.
+
+   Security researchers, penetration testers, and ethical hackers see here to learn how to use this to test rogue access points with this tool.
+
+6. Unplug your Raspberry Pi Pico W from your computer and connect it to a power source.
+
+7. Your Raspberry Pi Pico W will now boot up and display the Pico Portal interface on the Pimoroni screen.
 
 ### User Defined Settings <a name="user-defined-settings"></a>
 
@@ -176,25 +184,25 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 }
 ```
 
-| Setting | Description |
-| :------ | :---------- |
-| `wifi_ssid` | The SSID of the Wi-Fi network you want to create. |
-| `wifi_password` | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Also cycle the power on and off if you change the password to fully update it. Leave blank for an open network (default). |
-| `wifi_domain` | The domain name for the captive portal displayed on the connecting device. |
-| `display_type` | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`. If you don't have a screen, you can use either. |
-| `enable_timestamps` | Enable or disable timestamps for the log. |
-| `led_brightness` | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.25 (25%), 0 for off. |
+| Setting             | Description                                                                                                                                                                                                                |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `wifi_ssid`         | The SSID of the Wi-Fi network you want to create.                                                                                                                                                                          |
+| `wifi_password`     | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Also cycle the power on and off if you change the password to fully update it. Leave blank for an open network (default). |
+| `wifi_domain`       | The domain name for the captive portal displayed on the connecting device.                                                                                                                                                 |
+| `display_type`      | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`. If you don't have a screen, you can use either.                                                               |
+| `enable_timestamps` | Enable or disable timestamps for the log.                                                                                                                                                                                  |
+| `led_brightness`    | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.25 (25%), 0 for off.                                                                                                                      |
 
 ### Button Functions <a name="button-functions"></a>
 
 The Pico Portal has four buttons that can be used to interact with the device. The button functions are as follows:
 
-| Button | Function |
-| :----- | :------- |
-| `A` | Scroll up one line of the displayed log. Hold to scroll up faster. |
-| `X` | Scroll down one line of the displayed log. Hold to scroll down faster. |
-| `B` | Scroll to the top of the page of the displayed log. |
-| `Y` | Scroll to the bottom of the page of the displayed log. |
+| Button | Function                                                               |
+| :----- | :--------------------------------------------------------------------- |
+| `A`    | Scroll up one line of the displayed log. Hold to scroll up faster.     |
+| `X`    | Scroll down one line of the displayed log. Hold to scroll down faster. |
+| `B`    | Scroll to the top of the page of the displayed log.                    |
+| `Y`    | Scroll to the bottom of the page of the displayed log.                 |
 
 Button layout:
 
@@ -237,26 +245,26 @@ Using a terminal, follow these steps to set up the development environment:
 
 1. Fork and clone the repository:
 
-    ```bash
-    git clone
-    ```
+   ```bash
+   git clone
+   ```
 
 2. Install project dependencies. This will install the required Node.js packages for running `setup.ts` which will download the required asset files to the `src/modules` folder. Run in the root of the project:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 3. Run the python setup script. This will download the files for linting (flake8), formatting (black), and pre-commit hooks (pre-commit). Basically everything we need for enforcing code quality.
 
-    ```bash
-    # Install the required packages
-    npm run lint:install
-    # Install the pre-commit hooks
-    pre-commit install
-    # Update the pre-commit hooks
-    pre-commit autoupdate
-    ```
+   ```bash
+   # Install the required packages
+   npm run lint:install
+   # Install the pre-commit hooks
+   pre-commit install
+   # Update the pre-commit hooks
+   pre-commit autoupdate
+   ```
 
 4. Program, test, and debug the project using the Thonny IDE.
 
@@ -268,12 +276,12 @@ Thank you for contributing!
 
 ### Scripts <a name="scripts"></a>
 
-| Script | Description |
-| :----- | :---------- |
-| `format` | Formats the Python code using [Black][url-black]. |
-| `lint` | Lints the Python code using Flake8. |
+| Script         | Description                                                       |
+| :------------- | :---------------------------------------------------------------- |
+| `format`       | Formats the Python code using [Black][url-black].                 |
+| `lint`         | Lints the Python code using Flake8.                               |
 | `lint:install` | Installs the required Python packages for linting and formatting. |
-| `postinstall` | Downloads the required asset files to the `src/modules` folder. |
+| `postinstall`  | Downloads the required asset files to the `src/modules` folder.   |
 
 <p align="right">[ <a href="#index">Index</a> ]</p>
 
@@ -328,13 +336,14 @@ Cody Tolene
 <!-- LINK REFERENCES -->
 
 [url-black]: https://pypi.org/project/black/
-[url-btc]: https://explorer.btc.com/btc/address/bc1qfx3lvspkj0q077u3gnrnxqkqwyvcku2nml86wmudy7yf2u8edmqq0a5vnt
+[url-btc]: https://www.blockchain.com/explorer/addresses/btc/bc1qfx3lvspkj0q077u3gnrnxqkqwyvcku2nml86wmudy7yf2u8edmqq0a5vnt
 [url-free-3d]: https://github.com/CodyTolene/3D-Printing
 [url-lambda-guru]: https://www.lambda.guru/
 [url-new-issue]: https://github.com/CodyTolene/Pico-Portal/issues
 [url-node-js]: https://nodejs.org/
 [url-pull-requests]: https://github.com/CodyTolene/Pico-Portal/pulls
 [url-python]: https://www.python.org/
+[url-red-portals]: https://github.com/CodyTolene/Red-Portals
 [url-thingiverse]: https://www.thingiverse.com/
 [url-thonny-ide]: https://thonny.org/
 
