@@ -1,5 +1,5 @@
 <div align="center">
-  <img align="center" src=".github/images/logo/PicoPortal.png" />
+  <img align="center" src=".github/images/logo/Portal.png" />
   <h1 align="center">Pico Portal</h1>
   <p align="center">
     Turn your Raspberry Pi Pico W into a portable, powerful Wi-Fi access point with this lightweight captive portal software. 
