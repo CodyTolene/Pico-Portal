@@ -99,7 +99,7 @@ class PortalService:
 
         @server.route("/generate_204", methods=["GET"])
         def android(request):
-            return redirect(f"http://{self.domain}/", 302)
+            return redirect(f"http://{self.domain}/", 200)
 
         @server.route("/hotspot-detect.html", methods=["GET"])
         def apple(request):
