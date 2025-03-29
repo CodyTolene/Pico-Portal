@@ -83,7 +83,7 @@ class MessagesService:
 
         return wrapped_lines
 
-    async def display(self, message, log=True, color=None):
+    async def display(self, message, log=True, color=None, delay=True):
         if self.enable_timestamps:
             # Prepend the current date and time to the message in the format
             # "2024-09-02 18:58:08"
@@ -125,7 +125,20 @@ class MessagesService:
             print(log_message)
             self.log_to_file(log_message)
 
-        await uasyncio.sleep(1)
+        wrapped_lines = self.calculate_wrapped_lines(display_message)
+
+        await uasyncio.sleep(1 if delay else 0)
+
+        return wrapped_lines
+
+    def delete_last_lines(self, max_lines: int):
+        lines_removed = 0
+        while self.messages and lines_removed < max_lines:
+            msg, _ = self.messages.pop()
+            lines_removed += self.calculate_wrapped_lines(msg)
+
+        self.scroll_position = max(0, self.scroll_position - lines_removed)
+        self.update_display(self.calculate_total_lines())
 
     def update_display(self, total_lines):
         # Clear the display

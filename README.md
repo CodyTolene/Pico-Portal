@@ -157,9 +157,7 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 
    > ![Info][img-info] **Note:** Be sure the "src/modules/" is copied and that the folder exists.
 
-5. Replace the files in the `templates/` directory with the desired template files ("index.html", "success.html", etc.).
-
-   > ![Info][img-info] You can add/update request handlers in the file `src/services/portal_service.py`.
+5. Add HTML template files to the `src/templates/` folder which can be set in `options.json` manually or in the menu while the device is running (press B to open the menu). This repo comes with two templates, the first `example.html` has a success page `success.html` on login (default), the second `example-two.html` does not.
 
    > ![Info][img-info] **Attention Security Professionals:** Security researchers, penetration testers, and ethical hackers can explore the [Red Portals repository][url-red-portals] to learn how to use this tool for testing rogue access points and enhancing network defenses.
 
@@ -173,14 +171,15 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 
 You can customize the Pico Portal settings by editing the `src/options.py` file. The settings are as follows:
 
-```python
+```json
 {
-    "wifi_ssid": "WiFi",
-    "wifi_password": "",
-    "wifi_domain": "setup.local",
-    "display_type": "DISPLAY_PICO_DISPLAY"
-    "enable_timestamps": False,
-    "led_brightness": 0.25
+  "wifi_ssid": "WiFi",
+  "wifi_password": "",
+  "wifi_domain": "setup.local",
+  "template": "example.html",
+  "display_type": "DISPLAY_PICO_DISPLAY",
+  "enable_timestamps": false,
+  "led_brightness": 0.25
 }
 ```
 
@@ -189,6 +188,7 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 | `wifi_ssid`         | The SSID of the Wi-Fi network you want to create.                                                                                                                                                                          |
 | `wifi_password`     | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Also cycle the power on and off if you change the password to fully update it. Leave blank for an open network (default). |
 | `wifi_domain`       | The domain name for the captive portal displayed on the connecting device.                                                                                                                                                 |
+| `template`          | The HTML template file to use for the captive portal. This can also be set from the menu on the device during run.                                                                                                         |
 | `display_type`      | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`. If you don't have a screen, you can use either.                                                               |
 | `enable_timestamps` | Enable or disable timestamps for the log.                                                                                                                                                                                  |
 | `led_brightness`    | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.25 (25%), 0 for off.                                                                                                                      |
@@ -197,12 +197,12 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 
 The Pico Portal has four buttons that can be used to interact with the device. The button functions are as follows:
 
-| Button | Function                                                               |
-| :----- | :--------------------------------------------------------------------- |
-| `A`    | Scroll up one line of the displayed log. Hold to scroll up faster.     |
-| `X`    | Scroll down one line of the displayed log. Hold to scroll down faster. |
-| `B`    | Scroll to the top of the page of the displayed log.                    |
-| `Y`    | Scroll to the bottom of the page of the displayed log.                 |
+| Button | Function                                                      |
+| :----- | :------------------------------------------------------------ |
+| `A`    | Select item (i.e. in the menu).                               |
+| `B`    | Open or close the "Select Template" menu.                     |
+| `X`    | Scroll down one line of log/menu. Hold to scroll down faster. |
+| `Y`    | Scroll up one line of log/menu. Hold to scroll down faster.   |
 
 Button layout:
 

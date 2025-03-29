@@ -1,0 +1,13 @@
+[flake8]
+ignore = E501
+exclude = 
+    .git,
+    .github,
+    __pycache__,
+    build,
+    dist,
+    venv,
+    .venv,
+    node_modules,
+    src/modules,
+max-line-length = 80
