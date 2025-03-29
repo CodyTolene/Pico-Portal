@@ -1,5 +1,13 @@
+# =============================================================================
+#  Project: Pico Portal
+#  License: CC-BY-NC-4.0
+#  Repository: https://github.com/CodyTolene/Pico-Portal
+#  Description: A service to handle the menu functionality for the Pico
+#  Portal device. This service will allow the user to select a template from
+#  the available templates and set it as the default template for the portal.
+# =============================================================================
+
 import sys
-import uasyncio  # type: ignore
 import os
 
 from services.messages_service import MessagesService

@@ -51,7 +51,9 @@ class PortalService:
         await self.messages.display("Starting access point")
         ap = access_point(self.ssid, self.password)
         await self.messages.display(f'AP "{self.ssid}" started')
-        await self.messages.display(f"AP Password: {self.password if self.password else 'None'}")
+        await self.messages.display(
+            f"AP Password: {self.password if self.password else 'None'}"
+        )
         self.ip = ap.ifconfig()[0]
         await self.messages.display(f"AP IP: {self.ip}")
 
@@ -137,4 +139,3 @@ class PortalService:
             return render_template(f"templates/{default_page}")
         except Exception:
             return render_template("templates/example.html")
-        
