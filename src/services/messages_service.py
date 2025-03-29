@@ -83,7 +83,7 @@ class MessagesService:
 
         return wrapped_lines
 
-    async def display(self, message, log=True, color=None):
+    async def display(self, message, log=True, color=None, delay=True):
         if self.enable_timestamps:
             # Prepend the current date and time to the message in the format
             # "2024-09-02 18:58:08"
@@ -125,7 +125,7 @@ class MessagesService:
             print(log_message)
             self.log_to_file(log_message)
 
-        await uasyncio.sleep(1)
+        await uasyncio.sleep(1 if delay else 0)
 
     def update_display(self, total_lines):
         # Clear the display

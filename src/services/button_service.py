@@ -12,6 +12,7 @@ import uasyncio  # type: ignore
 
 # Local packages
 from services.messages_service import MessagesService
+from services.menu_service import MenuService
 
 # Ensure packages can be imported
 sys.path.append("../modules")
@@ -19,9 +20,10 @@ sys.path.append("../services")
 
 
 class ButtonService:
-    def __init__(self, messages: MessagesService):
+    def __init__(self, menu: MenuService, messages: MessagesService):
         # Dependencies
         self.messages = messages
+        self.menu = menu
 
         # Initialize buttons
         self.button_a = Button(12)  # Button A
@@ -43,36 +45,29 @@ class ButtonService:
             await self.handle_button_x()
             await self.handle_button_y()
 
-            # Sleep for a short period to debounce button presses
-            await uasyncio.sleep(0.1)
+            await uasyncio.sleep(0.05)
 
     async def handle_button_a(self):
         if self.button_a.read():
-            await self.scroll_continuously(self.messages.scroll_up)
-        else:
-            await uasyncio.sleep(0.1)
+            await self.menu.select()
 
     async def handle_button_b(self):
         if self.button_b.read():
-            if not self.button_states["B"]:
-                self.button_states["B"] = True
-                self.messages.scroll_top()
-        else:
-            self.button_states["B"] = False
+            await self.menu.toggle()
 
     async def handle_button_x(self):
         if self.button_x.read():
-            await self.scroll_continuously(self.messages.scroll_down)
-        else:
-            await uasyncio.sleep(0.1)
+            if self.menu.is_active():
+                await self.menu.scroll_down()
+            else:
+                await self.scroll_continuously(self.messages.scroll_down)
 
     async def handle_button_y(self):
         if self.button_y.read():
-            if not self.button_states["Y"]:
-                self.button_states["Y"] = True
-                self.messages.scroll_bottom()
-        else:
-            self.button_states["Y"] = False
+            if self.menu.is_active():
+                await self.menu.scroll_up()
+            else:
+                await self.scroll_continuously(self.messages.scroll_up)
 
     async def scroll_continuously(self, scroll_function):
         # Continue scrolling as long as the button is pressed
@@ -85,41 +80,78 @@ class ButtonService:
 
 # Testing
 if __name__ == "__main__":
-    from services.options_service import OptionsDisplayTypes, OptionsService, OptionKeys
+    from services.options_service import OptionsService
+
+    async def wait_for_button(button, label="button"):
+        while not button.read():
+            await uasyncio.sleep(0.05)
+        while button.read():
+            await uasyncio.sleep(0.05)
+        return
 
     async def main():
         options = OptionsService()
-        display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
-
-        messages = MessagesService(display_type)
-        button_service = ButtonService(messages)
+        messages = MessagesService(options)
+        menu = MenuService(messages)
+        button_service = ButtonService(menu, messages)
 
         # Start the button service
         uasyncio.create_task(button_service.run())
 
-        # Simulate displaying messages
-        await messages.display("Success (green) message.", color=messages.GREEN)
-        await messages.display("Error (red) message!", color=messages.RED)
-        await messages.display("Normal (gray) message.")
-        await messages.display("Normal (gray) message, no timestamp.", timestamp=False)
+        await messages.display("Pico Portal Button Test", color=messages.GREEN)
+        await messages.display("Press Button B to toggle the menu")
 
-        # Test an extra long string that has no spaces
+        await wait_for_button(button_service.button_b, "B")
+        await uasyncio.sleep(0.2)
+        await messages.display("Menu opened. Press X to scroll down")
+
+        await wait_for_button(button_service.button_x, "X")
+        await messages.display("Scrolled down. Press Y to scroll up")
+
+        await wait_for_button(button_service.button_y, "Y")
+        await messages.display("Scrolled up. Press A to select")
+
+        await wait_for_button(button_service.button_a, "A")
+        await messages.display("Selection triggered. Press B to close menu")
+
+        await wait_for_button(button_service.button_b, "B")
         await messages.display(
-            "ThisIsALongStringThatShouldBeWrappedIntoMultipleLinesBecauseItDoesNotHaveSpaces",
-            log=False,
+            "Menu closed. Button test complete!", color=messages.GREEN
         )
 
-        # Simulate messages displaying until scrollbar appears
-        for i in range(20):
-            await messages.display(f"Message {i + 1}: Lorem ipsum dolor sit amet")
+        await messages.display(
+            "You may now try buttons freely. Press any button to see it logged."
+        )
 
-        # Start the scroll test
-        await messages.display("Scroll test starting...", log=False)
-        await uasyncio.sleep(1)
+        prev_states = {
+            "A": False,
+            "B": False,
+            "X": False,
+            "Y": False,
+        }
 
-        # Keep the event loop running indefinitely to continue processing
-        # button inputs
         while True:
-            await uasyncio.sleep(1)
+            a = button_service.button_a.read()
+            b = button_service.button_b.read()
+            x = button_service.button_x.read()
+            y = button_service.button_y.read()
+
+            # Show any button press
+            if a and not prev_states["A"]:
+                await messages.display("Button A pressed")
+            if b and not prev_states["B"]:
+                await messages.display("Button B pressed")
+            if x and not prev_states["X"]:
+                await messages.display("Button X pressed")
+            if y and not prev_states["Y"]:
+                await messages.display("Button Y pressed")
+
+            # Update states
+            prev_states["A"] = a
+            prev_states["B"] = b
+            prev_states["X"] = x
+            prev_states["Y"] = y
+
+            await uasyncio.sleep(0.05)
 
     uasyncio.run(main())
