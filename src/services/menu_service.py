@@ -97,7 +97,7 @@ class MenuService:
     async def render(self):
         self.clear_rendered_lines()
 
-        self.options = self.load_html_templates() 
+        self.options = self.load_html_templates()
 
         line_count = 0
         line_count += await self.messages.display("=== SELECT TEMPLATE ===", log=False, delay=False)

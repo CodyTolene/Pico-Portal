@@ -9,7 +9,6 @@
 
 import uasyncio  # type: ignore
 import sys
-import os
 
 # Third party packages
 from modules.phew import access_point, dns, server
