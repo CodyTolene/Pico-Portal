@@ -50,7 +50,6 @@ class ButtonService:
     async def handle_button_a(self):
         if self.button_a.read():
             await self.menu.select()
-            await self.menu.toggle()
 
     async def handle_button_b(self):
         if self.button_b.read():

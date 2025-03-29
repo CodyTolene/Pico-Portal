@@ -24,6 +24,7 @@ class MenuService:
         self.options_service = options
 
         self.active = False
+        self.last_render_line_count = 0
         self.selected_index = 0
         self.options = self.load_html_templates()
 
@@ -49,11 +50,18 @@ class MenuService:
         return options
 
     async def toggle(self):
-        self.active = not self.active
         if self.active:
-            await self.render()
-        else:
+            self.clear_rendered_lines()
+            self.selected_index = 0
             await self.messages.display("Menu closed")
+        else:
+            await self.render()
+        self.active = not self.active
+
+    def clear_rendered_lines(self):
+        if self.last_render_line_count > 0:
+            self.messages.delete_last_lines(self.last_render_line_count)
+            self.last_render_line_count = 0
 
     async def scroll_up(self):
         if not self.active or not self.options:
@@ -70,7 +78,12 @@ class MenuService:
     async def select(self):
         if not self.active or not self.options:
             return
+
         selected = self.options[self.selected_index]
+
+        self.clear_rendered_lines()
+        self.active = False
+
         await self.messages.display(f"Selected: {selected['label']}")
         await selected["action"](selected["filename"])
 
@@ -82,15 +95,24 @@ class MenuService:
             await self.messages.display(f"Failed to set default: {e}")
 
     async def render(self):
-        await self.messages.display("=== SELECT TEMPLATE ===", log=False, delay=False)
+        self.clear_rendered_lines()
+
+        self.options = self.load_html_templates() 
+
+        line_count = 0
+        line_count += await self.messages.display("=== SELECT TEMPLATE ===", log=False, delay=False)
+
         if not self.options:
-            await self.messages.display("No templates found.", delay=False)
+            line_count += await self.messages.display("No templates found.", delay=False)
+            self.last_render_line_count = line_count
             return
 
         for i, option in enumerate(self.options):
             prefix = ">" if i == self.selected_index else " "
             label = option["label"]
             color = option.get("color", self.messages.GRAY)
-            await self.messages.display(
+            line_count += await self.messages.display(
                 f"{prefix} {label}", color=color, log=False, delay=False
             )
+
+        self.last_render_line_count = line_count

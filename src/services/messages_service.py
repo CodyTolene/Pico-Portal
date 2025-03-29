@@ -125,7 +125,20 @@ class MessagesService:
             print(log_message)
             self.log_to_file(log_message)
 
+        wrapped_lines = self.calculate_wrapped_lines(display_message)
+
         await uasyncio.sleep(1 if delay else 0)
+
+        return wrapped_lines
+
+    def delete_last_lines(self, max_lines: int):
+        lines_removed = 0
+        while self.messages and lines_removed < max_lines:
+            msg, _ = self.messages.pop()
+            lines_removed += self.calculate_wrapped_lines(msg)
+
+        self.scroll_position = max(0, self.scroll_position - lines_removed)
+        self.update_display(self.calculate_total_lines())
 
     def update_display(self, total_lines):
         # Clear the display
