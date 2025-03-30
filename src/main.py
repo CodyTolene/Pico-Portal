@@ -18,6 +18,7 @@ from services.onboard_led_service import OnboardLedService
 from services.options_service import OptionsService
 from services.pico_display_led_service import PicoDisplayLedService
 from services.portal_service import PortalService
+from services.screen_service import ScreenService
 from services.splash_screen_service import SplashScreenService
 
 # Ensure packages can be imported
@@ -30,10 +31,14 @@ VERSION = "1.5.0"
 
 async def main():
     options = OptionsService()
-    await showTemporarySplashScreen(options)
+
+    screen = ScreenService(options)
+
+    await SplashScreenService(screen).show(duration=3)
+
     onboard_led = OnboardLedService()
     pico_display_led = PicoDisplayLedService(options)
-    messages = MessagesService(options)
+    messages = MessagesService(options, screen)
     menu = MenuService(messages, options)
     buttons = ButtonService(menu, messages)
     portal = PortalService(options, messages, pico_display_led)
@@ -57,13 +62,6 @@ async def main():
     # Keep the application running indefinitely while the power is on
     while True:
         await uasyncio.sleep(1)
-
-
-async def showTemporarySplashScreen(options: OptionsService):
-    splash = SplashScreenService(options)
-    await splash.show(duration=3)
-    splash.graphics = None
-    del splash
 
 
 if __name__ == "__main__":

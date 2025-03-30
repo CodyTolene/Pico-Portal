@@ -10,10 +10,10 @@
 import sys
 import uasyncio  # type: ignore
 import utime  # type: ignore
-from picographics import PicoGraphics, DISPLAY_PICO_DISPLAY, DISPLAY_PICO_DISPLAY_2  # type: ignore
 
 # Local packages
-from services.options_service import OptionsDisplayTypes, OptionKeys, OptionsService
+from services.options_service import OptionKeys, OptionsService
+from services.screen_service import ScreenService
 
 # Ensure packages can be imported
 sys.path.append("../modules")
@@ -21,26 +21,17 @@ sys.path.append("../services")
 
 
 class MessagesService:
-    def __init__(self, options: OptionsService):
-        display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
-        self.enable_dark_mode: bool = options.get_option(OptionKeys.ENABLE_DARK_MODE)
+    def __init__(self, options: OptionsService, screen: ScreenService):
+        self.graphics = screen.graphics
+        self.enable_dark_mode = screen.enable_dark_mode
         self.enable_timestamps: bool = options.get_option(OptionKeys.ENABLE_TIMESTAMPS)
-        self.screen_brightness: float = options.get_option(OptionKeys.SCREEN_BRIGHTNESS)
 
-        # Initialize the display based on the display_type
-        if display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY:
-            self.graphics = PicoGraphics(display=DISPLAY_PICO_DISPLAY)
-        elif display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY_2:
-            self.graphics = PicoGraphics(display=DISPLAY_PICO_DISPLAY_2, rotate=270)
-        else:
-            raise ValueError("Invalid display type")
+        self.BLACK = screen.BLACK
+        self.GRAY = screen.GRAY
+        self.GREEN = screen.GREEN
+        self.RED = screen.RED
+        self.WHITE = screen.WHITE
 
-        # Initialize drawing properties
-        self.BLACK = self.graphics.create_pen(0, 0, 0)
-        self.GRAY = self.graphics.create_pen(150, 150, 150)
-        self.GREEN = self.graphics.create_pen(0, 200, 0)
-        self.RED = self.graphics.create_pen(255, 0, 0)
-        self.WHITE = self.graphics.create_pen(255, 255, 255)
         self.line_height = 13
         self.margin = 10
 
@@ -55,8 +46,6 @@ class MessagesService:
         # Use system font that supports lowercase and better character
         # distinction
         self.graphics.set_font("bitmap8")
-
-        self.graphics.set_backlight(self.screen_brightness)
 
     def calculate_total_lines(self):
         total_lines = 0
