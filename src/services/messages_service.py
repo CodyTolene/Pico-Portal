@@ -74,8 +74,8 @@ class MessagesService:
 
         return wrapped_lines
 
-    async def display(self, message, log=True, color=None, delay=True):
-        if self.enable_timestamps:
+    async def display(self, message, log=True, color=None, delay=True, show_timestamp=True):
+        if self.enable_timestamps and show_timestamp:
             # Prepend the current date and time to the message in the format
             # "2024-09-02 18:58:08"
             current_time = utime.localtime()
@@ -88,7 +88,7 @@ class MessagesService:
                 current_time[5],
             )
             # Display timestamp and message on separate lines for the screen
-            display_message = f"[{formatted_time}]\n{message}"
+            display_message = f"[{formatted_time}] {message}"
             # Log timestamp and message on the same line for log.txt
             log_message = f"[{formatted_time}] {message}"
         else:
