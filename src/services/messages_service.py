@@ -23,15 +23,15 @@ sys.path.append("../services")
 class MessagesService:
     def __init__(self, options: OptionsService):
         display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
+        self.enable_dark_mode: bool = options.get_option(OptionKeys.ENABLE_DARK_MODE)
         self.enable_timestamps: bool = options.get_option(OptionKeys.ENABLE_TIMESTAMPS)
+        self.screen_brightness: float = options.get_option(OptionKeys.SCREEN_BRIGHTNESS)
 
         # Initialize the display based on the display_type
         if display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY:
             self.graphics = PicoGraphics(display=DISPLAY_PICO_DISPLAY)
-            self.rotation = 0  # No rotation needed for DISPLAY_PICO_DISPLAY
         elif display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY_2:
             self.graphics = PicoGraphics(display=DISPLAY_PICO_DISPLAY_2, rotate=270)
-            self.rotation = 270  # Rotate DISPLAY_PICO_DISPLAY_2 to match orientation
         else:
             raise ValueError("Invalid display type")
 
@@ -55,6 +55,8 @@ class MessagesService:
         # Use system font that supports lowercase and better character
         # distinction
         self.graphics.set_font("bitmap8")
+
+        self.graphics.set_backlight(self.screen_brightness)
 
     def calculate_total_lines(self):
         total_lines = 0
@@ -142,7 +144,11 @@ class MessagesService:
 
     def update_display(self, total_lines):
         # Clear the display
-        self.graphics.set_pen(self.WHITE)
+        if self.enable_dark_mode:
+            self.graphics.set_pen(self.BLACK)
+        else:
+            self.graphics.set_pen(self.WHITE)
+        
         self.graphics.clear()
 
         y = self.margin
@@ -154,7 +160,11 @@ class MessagesService:
                 if msg.startswith("["):
                     # Extract timestamp and rest of the message
                     timestamp, rest = msg.split("\n", 1)
-                    self.graphics.set_pen(self.BLACK)
+                    if self.enable_dark_mode:
+                        self.graphics.set_pen(self.WHITE)
+                    else:
+                        self.graphics.set_pen(self.BLACK)
+                    
                     self.graphics.text(
                         timestamp,
                         self.margin,
@@ -215,7 +225,11 @@ class MessagesService:
         scroll_bar_position = int(scrollable_area_height * scroll_ratio)
 
         # Draw the scroll bar
-        self.graphics.set_pen(self.BLACK)
+        if self.enable_dark_mode:
+            self.graphics.set_pen(self.GRAY)
+        else:
+            self.graphics.set_pen(self.BLACK)
+        
         self.graphics.rectangle(
             self.graphics.get_bounds()[0] - 5, scroll_bar_position, 5, scroll_bar_height
         )
@@ -280,26 +294,33 @@ if __name__ == "__main__":
             await messages.display(f"Message {i + 1}: Lorem ipsum dolor sit amet")
 
         # Start the scroll test
-        await messages.display("Scroll test starting...", log=False)
+        await messages.display("Scroll test start...", log=False)
         await uasyncio.sleep(1)
 
         # Scroll up x25
+        await messages.display("Scroll up slowly...", log=False)
         for i in range(25):
             messages.scroll_up()
 
         await uasyncio.sleep(2)
 
         # Scroll down x20
+        await messages.display("Scroll down slowly...", log=False)
         for i in range(20):
             messages.scroll_down()
 
         await uasyncio.sleep(1)
 
         # Scroll to top
+        await messages.display("Jump to top...", log=False)
         messages.scroll_top()
         await uasyncio.sleep(1)
 
         # Scroll to bottom
+        await messages.display("Jump to bottom...", log=False)
         messages.scroll_bottom()
+        await messages.display("Scroll test completed...", log=False)
+
+        await messages.display("All tests completed...", log=False)
 
     uasyncio.run(main())

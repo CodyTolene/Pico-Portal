@@ -25,7 +25,7 @@ sys.path.append("/modules")
 sys.path.append("/services")
 
 # Version
-VERSION = "1.4.0"
+VERSION = "1.5.0"
 
 
 async def main():
@@ -64,6 +64,7 @@ async def showTemporarySplashScreen(options: OptionsService):
     await splash.show(duration=3)
     splash.graphics = None
     del splash
+
 
 if __name__ == "__main__":
     time.sleep(1)
