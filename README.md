@@ -13,23 +13,23 @@
 
 ## Index <a name="index"></a>
 
-- [Preview images](#previews)
-- [Hardware](#hardware)
-  - [Purchase](#purchase-device)
-  - [Build your own](#build-your-own)
-- [Firmware Setup](#firmware-setup)
-  - [Connecting to PC](#connecting)
-  - [Installing Firmware](#installing-firmware)
-- [Software Setup](#software-setup)
-  - [Installing Software](#installing-software)
-  - [User Defined Settings](#user-defined-settings)
-  - [Button Functions](#button-functions)
-- [Development](#development)
-  - [Requirements](#requirements)
-  - [Development Setup](#development-setup)
-  - [Scripts](#scripts)
-- [Licensing](#licensing)
-- [Wrapping Up](#wrapping-up)
+-   [Preview images](#previews)
+-   [Hardware](#hardware)
+    -   [Purchase](#purchase-device)
+    -   [Build your own](#build-your-own)
+-   [Firmware Setup](#firmware-setup)
+    -   [Connecting to PC](#connecting)
+    -   [Installing Firmware](#installing-firmware)
+-   [Software Setup](#software-setup)
+    -   [Installing Software](#installing-software)
+    -   [User Defined Settings](#user-defined-settings)
+    -   [Button Functions](#button-functions)
+-   [Development](#development)
+    -   [Requirements](#requirements)
+    -   [Development Setup](#development-setup)
+    -   [Scripts](#scripts)
+-   [Licensing](#licensing)
+-   [Wrapping Up](#wrapping-up)
 
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
@@ -121,7 +121,7 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 
 1. Download the latest Pimoroni Pico W UF2 file "picow-vXX.YY.ZZ-pimoroni-micropython.uf2" from the official releases:
 
-   - https://github.com/pimoroni/pimoroni-pico/releases
+    - https://github.com/pimoroni/pimoroni-pico/releases
 
 2. Connect your Raspberry Pi Pico W to your PC, see [Connecting to PC](#connecting-to-pc).
 
@@ -143,25 +143,25 @@ To install MicroPython on your Raspberry Pi Pico W after [connecting to your com
 
 1. Install project dependencies:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 2. Install Thonny IDE:
 
-   - https://thonny.org/
+    - https://thonny.org/
 
 3. Open Thonny IDE and connect to your Raspberry Pi Pico W via USB.
 
 4. Copy the contents from `src/` (this repo) to the root of your Raspberry Pi Pico W using the Thonny IDE.
 
-   > ![Info][img-info] **Note:** Be sure the "src/modules/" is copied and that the folder exists.
+    > ![Info][img-info] **Note:** Be sure the "src/modules/" is copied and that the folder exists.
 
 5. Add HTML template files to the `src/templates/` folder which can be set in `options.json` manually or in the menu while the device is running (press B to open the menu). This repo comes with two templates, the first `example.html` has a success page `success.html` on login (default), the second `example-two.html` does not.
 
-   > ![Info][img-info] **Attention Security Professionals:** Security researchers, penetration testers, and ethical hackers can explore the [Red Portals repository][url-red-portals] to learn how to use this tool for testing rogue access points and enhancing network defenses.
+    > ![Info][img-info] **Attention Security Professionals:** Security researchers, penetration testers, and ethical hackers can explore the [Red Portals repository][url-red-portals] to learn how to use this tool for testing rogue access points and enhancing network defenses.
 
-   Security researchers, penetration testers, and ethical hackers see here to learn how to use this to test rogue access points with this tool.
+    Security researchers, penetration testers, and ethical hackers see here to learn how to use this to test rogue access points with this tool.
 
 6. Unplug your Raspberry Pi Pico W from your computer and connect it to a power source.
 
@@ -173,25 +173,33 @@ You can customize the Pico Portal settings by editing the `src/options.py` file.
 
 ```json
 {
-  "wifi_ssid": "WiFi",
-  "wifi_password": "",
-  "wifi_domain": "setup.local",
-  "template": "example.html",
-  "display_type": "DISPLAY_PICO_DISPLAY",
-  "enable_timestamps": false,
-  "led_brightness": 0.25
+    "wifi_ssid": "WiFi",
+    "wifi_password": "",
+    "wifi_domain": "setup.local",
+    "template": "example.html",
+    "display_type": "DISPLAY_PICO_DISPLAY",
+    "enable_dark_mode": false,
+    "enable_timestamps": false,
+    "screen_brightness": 0.75,
+    "led_brightness": 0.1
 }
 ```
 
-| Setting             | Description                                                                                                                                                                                                                |
-| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `wifi_ssid`         | The SSID of the Wi-Fi network you want to create.                                                                                                                                                                          |
-| `wifi_password`     | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Also cycle the power on and off if you change the password to fully update it. Leave blank for an open network (default). |
-| `wifi_domain`       | The domain name for the captive portal displayed on the connecting device.                                                                                                                                                 |
-| `template`          | The HTML template file to use for the captive portal. This can also be set from the menu on the device during run.                                                                                                         |
-| `display_type`      | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`. If you don't have a screen, you can use either.                                                               |
-| `enable_timestamps` | Enable or disable timestamps for the log.                                                                                                                                                                                  |
-| `led_brightness`    | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.25 (25%), 0 for off.                                                                                                                      |
+| Setting             | Description                                                                                                                                 |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| `wifi_ssid`         | The SSID of the Wi-Fi network you want to create.                                                                                           |
+| `wifi_password`     | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Leave blank for an open network (default). |
+| `wifi_domain`       | The domain name for the captive portal displayed on the connecting device.                                                                  |
+| `template`          | The HTML template file to use for the captive portal. This can also be set from the menu on the device during run.                          |
+| `display_type`      | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`.                                |
+| `enable_dark_mode`  | Whether to enable dark mode for the display. Options are `true` or `false`.                                                                 |
+| `enable_timestamps` | Enable or disable timestamps for the log. Options are `true` or `false`.                                                                    |
+| `screen_brightness` | The brightness of the Pico Display screen, as a range from 0.0 to 1.0. Default is 0.75 (75%), 0 for off.                                    |
+| `led_brightness`    | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.1 (10%), 0 for off.                                        |
+
+> ![Info][img-info] **Note:** If you don't have a screen, any option for `display_type` will work.
+
+> ![Info][img-info] **Note:** Turn the power on and off if you change the Wi-Fi password to fully update it.
 
 ### Button Functions <a name="button-functions"></a>
 
@@ -235,9 +243,9 @@ Button layout:
 
 Make sure the following are installed on your system before you begin:
 
-- [Node.js][url-node-js]
-- [Python][url-python]
-- [Thonny IDE][url-thonny-ide]
+-   [Node.js][url-node-js]
+-   [Python][url-python]
+-   [Thonny IDE][url-thonny-ide]
 
 ### Development Setup <a name="development-setup"></a>
 
@@ -245,26 +253,26 @@ Using a terminal, follow these steps to set up the development environment:
 
 1. Fork and clone the repository:
 
-   ```bash
-   git clone
-   ```
+    ```bash
+    git clone
+    ```
 
 2. Install project dependencies. This will install the required Node.js packages for running `setup.ts` which will download the required asset files to the `src/modules` folder. Run in the root of the project:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. Run the python setup script. This will download the files for linting (flake8), formatting (black), and pre-commit hooks (pre-commit). Basically everything we need for enforcing code quality.
 
-   ```bash
-   # Install the required packages
-   npm run lint:install
-   # Install the pre-commit hooks
-   pre-commit install
-   # Update the pre-commit hooks
-   pre-commit autoupdate
-   ```
+    ```bash
+    # Install the required packages
+    npm run lint:install
+    # Install the pre-commit hooks
+    pre-commit install
+    # Update the pre-commit hooks
+    pre-commit autoupdate
+    ```
 
 4. Program, test, and debug the project using the Thonny IDE.
 

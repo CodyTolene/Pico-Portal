@@ -19,8 +19,10 @@ class OptionKeys:
     WIFI_DOMAIN: str = "wifi_domain"  # Default: "setup.local"
     TEMPLATE: str = "template"  # Default: "example.html"
     DISPLAY_TYPE: OptionsDisplayTypes = "display_type"  # Default: DISPLAY_PICO_DISPLAY
+    ENABLE_DARK_MODE: bool = "enable_dark_mode"  # Default: false
     ENABLE_TIMESTAMPS: bool = "enable_timestamps"  # Default: false
-    LED_BRIGHTNESS = "led_brightness"  # Default: 0.25 (0.0 - 1.0)
+    SCREEN_BRIGHTNESS: float = "screen_brightness"  # Default: 0.5 (0.0 - 1.0)
+    LED_BRIGHTNESS: float = "led_brightness"  # Default: 0.25 (0.0 - 1.0)
 
 
 class OptionsService:
@@ -64,6 +66,8 @@ class OptionsService:
             OptionKeys.WIFI_DOMAIN: "setup.local",
             OptionKeys.TEMPLATE: "example.html",
             OptionKeys.DISPLAY_TYPE: OptionsDisplayTypes.DISPLAY_PICO_DISPLAY,
+            OptionKeys.ENABLE_DARK_MODE: False,
             OptionKeys.ENABLE_TIMESTAMPS: False,
+            OptionKeys.SCREEN_BRIGHTNESS: 0.5,
             OptionKeys.LED_BRIGHTNESS: 0.25,
         }

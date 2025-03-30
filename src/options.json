@@ -4,6 +4,8 @@
     "wifi_domain": "setup.local",
     "template": "example.html",
     "display_type": "DISPLAY_PICO_DISPLAY",
+    "enable_dark_mode": false,
     "enable_timestamps": false,
-    "led_brightness": 0.25
+    "screen_brightness": 0.75,
+    "led_brightness": 0.1
 }

@@ -8,27 +8,27 @@
 import sys
 import uasyncio  # type: ignore
 
-from picographics import PicoGraphics, DISPLAY_PICO_DISPLAY, DISPLAY_PICO_DISPLAY_2  # type: ignore
-from services.options_service import OptionsDisplayTypes, OptionKeys, OptionsService
+# Local packages
+from services.screen_service import ScreenService
 
 sys.path.append("../modules")
 sys.path.append("../services")
 
 
 class SplashScreenService:
-    def __init__(self, options: OptionsService):
-        display_type = options.get_option(OptionKeys.DISPLAY_TYPE)
-
-        if display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY:
-            self.graphics = PicoGraphics(display=DISPLAY_PICO_DISPLAY)
-        elif display_type == OptionsDisplayTypes.DISPLAY_PICO_DISPLAY_2:
-            self.graphics = PicoGraphics(display=DISPLAY_PICO_DISPLAY_2, rotate=270)
-        else:
-            raise ValueError("Invalid display type")
-
+    def __init__(self, screen: ScreenService):
+        self.enable_dark_mode = screen.enable_dark_mode
+        self.graphics = screen.graphics
         self.width, self.height = self.graphics.get_bounds()
 
-    async def show(self, image_path="images/logo.bin", duration=3):
+        self.BLACK = screen.BLACK
+        self.WHITE = screen.WHITE
+
+    async def show(self, duration=3):
+        image_path = (
+            "images/logo-dark.bin" if self.enable_dark_mode else "images/logo.bin"
+        )
+
         try:
             # Load raw RGB565 image (60x60 = 7200 bytes)
             with open(image_path, "rb") as f:
@@ -40,7 +40,11 @@ class SplashScreenService:
             x_offset = (self.width - image_width) // 2
             y_offset = (self.height - image_height) // 2
 
-            self.graphics.set_pen(self.graphics.create_pen(255, 255, 255))
+            if self.enable_dark_mode:
+                self.graphics.set_pen(self.BLACK)
+            else:
+                self.graphics.set_pen(self.WHITE)
+
             self.graphics.clear()
 
             # Draw pixels from raw binary
@@ -62,7 +66,11 @@ class SplashScreenService:
             self.graphics.update()
 
         except Exception as e:
-            self.graphics.set_pen(self.graphics.create_pen(0, 0, 0))
+            if self.enable_dark_mode:
+                self.graphics.set_pen(self.WHITE)
+            else:
+                self.graphics.set_pen(self.BLACK)
+
             self.graphics.text("Splash failed", 10, 10, scale=2)
             self.graphics.update()
             print(f"Failed to load splash: {e}")
