@@ -58,6 +58,7 @@ async def main():
     while True:
         await uasyncio.sleep(1)
 
+
 async def showTemporarySplashScreen(options: OptionsService):
     splash = SplashScreenService(options)
     await splash.show(duration=3)

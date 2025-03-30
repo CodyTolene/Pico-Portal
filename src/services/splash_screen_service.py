@@ -7,7 +7,6 @@
 
 import sys
 import uasyncio  # type: ignore
-import os
 
 from picographics import PicoGraphics, DISPLAY_PICO_DISPLAY, DISPLAY_PICO_DISPLAY_2  # type: ignore
 from services.options_service import OptionsDisplayTypes, OptionKeys, OptionsService
