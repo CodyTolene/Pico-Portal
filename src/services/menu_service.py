@@ -100,10 +100,14 @@ class MenuService:
         self.options = self.load_html_templates()
 
         line_count = 0
-        line_count += await self.messages.display("=== SELECT TEMPLATE ===", log=False, delay=False, show_timestamp=False)
+        line_count += await self.messages.display(
+            "=== SELECT TEMPLATE ===", log=False, delay=False, show_timestamp=False
+        )
 
         if not self.options:
-            line_count += await self.messages.display("No templates found.", delay=False, show_timestamp=False)
+            line_count += await self.messages.display(
+                "No templates found.", delay=False, show_timestamp=False
+            )
             self.last_render_line_count = line_count
             return
 
@@ -112,11 +116,11 @@ class MenuService:
             label = option["label"]
             color = option.get("color", self.messages.GRAY)
             line_count += await self.messages.display(
-                f"{prefix} {label}", 
-                color=color, 
-                log=False, 
-                delay=False, 
-                show_timestamp=False
+                f"{prefix} {label}",
+                color=color,
+                log=False,
+                delay=False,
+                show_timestamp=False,
             )
 
         self.last_render_line_count = line_count

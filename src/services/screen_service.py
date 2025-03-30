@@ -19,7 +19,9 @@ sys.path.append("../services")
 
 class ScreenService:
     def __init__(self, options: OptionsService):
-        self.display_type: OptionsDisplayTypes = options.get_option(OptionKeys.DISPLAY_TYPE)
+        self.display_type: OptionsDisplayTypes = options.get_option(
+            OptionKeys.DISPLAY_TYPE
+        )
         self.enable_dark_mode: bool = options.get_option(OptionKeys.ENABLE_DARK_MODE)
         self.screen_brightness: float = options.get_option(OptionKeys.SCREEN_BRIGHTNESS)
 
@@ -42,15 +44,13 @@ class ScreenService:
     def _set_backlight(self):
         self.graphics.set_backlight(self.screen_brightness)
 
+
 # Testing
 if __name__ == "__main__":
 
     async def main():
         options = OptionsService()
-        backlight_service = BacklightService(options)
-
-        backlight_service.set_backlight()
-
+        ScreenService(options)
         await uasyncio.sleep(1)
 
     uasyncio.run(main())

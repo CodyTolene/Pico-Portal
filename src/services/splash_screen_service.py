@@ -25,8 +25,10 @@ class SplashScreenService:
         self.WHITE = screen.WHITE
 
     async def show(self, duration=3):
-        image_path = "images/logo-dark.bin" if self.enable_dark_mode else "images/logo.bin"
-        
+        image_path = (
+            "images/logo-dark.bin" if self.enable_dark_mode else "images/logo.bin"
+        )
+
         try:
             # Load raw RGB565 image (60x60 = 7200 bytes)
             with open(image_path, "rb") as f:
@@ -42,7 +44,7 @@ class SplashScreenService:
                 self.graphics.set_pen(self.BLACK)
             else:
                 self.graphics.set_pen(self.WHITE)
-            
+
             self.graphics.clear()
 
             # Draw pixels from raw binary
@@ -68,7 +70,7 @@ class SplashScreenService:
                 self.graphics.set_pen(self.WHITE)
             else:
                 self.graphics.set_pen(self.BLACK)
-                
+
             self.graphics.text("Splash failed", 10, 10, scale=2)
             self.graphics.update()
             print(f"Failed to load splash: {e}")

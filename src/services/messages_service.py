@@ -74,7 +74,9 @@ class MessagesService:
 
         return wrapped_lines
 
-    async def display(self, message, log=True, color=None, delay=True, show_timestamp=True):
+    async def display(
+        self, message, log=True, color=None, delay=True, show_timestamp=True
+    ):
         if self.enable_timestamps and show_timestamp:
             # Prepend the current date and time to the message in the format
             # "2024-09-02 18:58:08"
@@ -137,7 +139,7 @@ class MessagesService:
             self.graphics.set_pen(self.BLACK)
         else:
             self.graphics.set_pen(self.WHITE)
-        
+
         self.graphics.clear()
 
         y = self.margin
@@ -153,7 +155,7 @@ class MessagesService:
                         self.graphics.set_pen(self.WHITE)
                     else:
                         self.graphics.set_pen(self.BLACK)
-                    
+
                     self.graphics.text(
                         timestamp,
                         self.margin,
@@ -218,7 +220,7 @@ class MessagesService:
             self.graphics.set_pen(self.GRAY)
         else:
             self.graphics.set_pen(self.BLACK)
-        
+
         self.graphics.rectangle(
             self.graphics.get_bounds()[0] - 5, scroll_bar_position, 5, scroll_bar_height
         )
