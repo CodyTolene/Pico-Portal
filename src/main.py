@@ -12,25 +12,26 @@ import time
 
 # Local packages
 from services.button_service import ButtonService
-from services.messages_service import MessagesService
 from services.menu_service import MenuService
+from services.messages_service import MessagesService
 from services.onboard_led_service import OnboardLedService
 from services.options_service import OptionsService
 from services.pico_display_led_service import PicoDisplayLedService
 from services.portal_service import PortalService
+from services.splash_screen_service import SplashScreenService
 
 # Ensure packages can be imported
 sys.path.append("/modules")
 sys.path.append("/services")
 
 # Version
-VERSION = "1.3.0"
+VERSION = "1.4.0"
 
 
 async def main():
-    # Dependencies
-    onboard_led = OnboardLedService()
     options = OptionsService()
+    await showTemporarySplashScreen(options)
+    onboard_led = OnboardLedService()
     pico_display_led = PicoDisplayLedService(options)
     messages = MessagesService(options)
     menu = MenuService(messages, options)
@@ -57,6 +58,12 @@ async def main():
     while True:
         await uasyncio.sleep(1)
 
+
+async def showTemporarySplashScreen(options: OptionsService):
+    splash = SplashScreenService(options)
+    await splash.show(duration=3)
+    splash.graphics = None
+    del splash
 
 if __name__ == "__main__":
     time.sleep(1)
