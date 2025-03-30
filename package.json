@@ -1,6 +1,6 @@
 {
     "name": "pico-portal",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "author": "Cody Tolene <codyatolene@gmail.com>",
     "description": "Raspbery Pi Pico Captive Portal",
     "contributors": [],
