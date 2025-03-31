@@ -26,7 +26,7 @@ sys.path.append("/modules")
 sys.path.append("/services")
 
 # Version
-VERSION = "1.5.0"
+VERSION = "1.5.1"
 
 
 async def main():
