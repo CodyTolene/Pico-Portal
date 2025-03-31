@@ -101,7 +101,7 @@ class MenuService:
 
         line_count = 0
         line_count += await self.messages.display(
-            "=== SELECT TEMPLATE ===", log=False, delay=False, show_timestamp=False
+            "== SELECT TEMPLATE ==", log=False, delay=False, show_timestamp=False
         )
 
         if not self.options:
