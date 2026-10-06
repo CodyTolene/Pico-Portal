@@ -5,12 +5,12 @@
   <div>
     <a href="https://www.etsy.com/listing/4589958071">
       <img
-        src="https://img.shields.io/badge/Pico_Portal-Etsy-F1641E"
+        src="https://img.shields.io/badge/Etsy-Pico_Portal-F1641E?labelColor=000&style=for-the-badge&logo=etsy"
         alt="Shop Pico Portal on Etsy" height="32" />
     </a>
     <a href="https://www.etsy.com/listing/4589952593">
       <img
-        src="https://img.shields.io/badge/Pico_Portal_XL-Etsy-F1641E"
+        src="https://img.shields.io/badge/Etsy-Pico_Portal_XL-F1641E?labelColor=000&style=for-the-badge&logo=etsy"
         alt="Shop Pico Portal XL on Etsy" height="32" />
     </a>
   </div>
