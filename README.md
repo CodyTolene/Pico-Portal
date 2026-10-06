@@ -1,360 +1,537 @@
 <div align="center">
-  <img align="center" src=".github/images/logo/Portal.png" />
-  <h1 align="center">Pico Portal</h1>
-  <p align="center">
-    Turn your Raspberry Pi Pico W into a portable, powerful Wi-Fi access point with this lightweight captive portal software. 
-    Serve web content/pages and display real-time connection info directly on the onboard Pimoroni screen. Log all the connection details for later debugging and use!
-  </p>
-  <p align="center">
-    Whether you're testing networks, showcasing web projects, or exploring IoT, this tool gives you the flexibility to do it all. 
-    It’s easily adaptable for various purposes—serve web applications, demo single-page apps (SPAs), or set up captive portals for network security testing.
-  </p>
+  <img align="center" alt="Pico Portal OS Logo" src=".github/images/logo.png" />
+  <h1 align="center">Pico Portal OS</h1>
 </div>
 
-## Index <a name="index"></a>
+## Contents
 
--   [Preview images](#previews)
--   [Hardware](#hardware)
-    -   [Purchase](#purchase-device)
-    -   [Build your own](#build-your-own)
--   [Firmware Setup](#firmware-setup)
-    -   [Connecting to PC](#connecting)
-    -   [Installing Firmware](#installing-firmware)
--   [Software Setup](#software-setup)
-    -   [Installing Software](#installing-software)
-    -   [User Defined Settings](#user-defined-settings)
-    -   [Button Functions](#button-functions)
--   [Development](#development)
-    -   [Requirements](#requirements)
-    -   [Development Setup](#development-setup)
-    -   [Scripts](#scripts)
--   [Licensing](#licensing)
--   [Wrapping Up](#wrapping-up)
+- [What is Pico Portal OS?](#what-is-pico-portal-os)
+- [Previews / Screenshots](#previews--screenshots)
+- [Hardware](#hardware)
+- [Software Guide](#software-guide)
+- [Installation](#installation)
+- [Development](#development)
+- [License](#license)
 
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+## What is Pico Portal OS? <a name="what-is-pico-portal-os"></a>
 
-## Preview images <a name="previews"></a>
+Pico Portal OS is a compact MicroPython toolkit for the Pico W, packed with
+useful tools, diagnostics, games, and utilities.
 
-### Pico Portal XL
+Take it with you to host an access point, check your network, experiment with
+nearby signals, run quick utilities, or just kill a few minutes with a game.
 
-![Pico Portal XL][img-pico-portal-xl-blue]
+I really wanted to see how much I could get out of my Pico W, and I think I
+finally scratched that itch.
 
-### Pico Portal Mini
+## Previews / Screenshots <a name="previews--screenshots"></a>
 
-![Pico Portal Mini][img-pico-portal-mini-red]
-
-### Software
-
-![Software Demo][img-software-demo]
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+<table>
+  <tr>
+    <th>Launcher</th>
+    <th>Bluetooth Tools</th>
+    <th>WiFi Tools</th>
+  </tr>
+  <tr>
+    <td><img src=".github/images/previews/menu.png"
+      alt="Pico Portal OS launcher menu" width="240"></td>
+    <td><img src=".github/images/previews/bluetooth.png"
+      alt="Bluetooth Tools menu" width="240"></td>
+    <td><img src=".github/images/previews/wifi.png"
+      alt="WiFi Tools menu" width="240"></td>
+  </tr>
+  <tr>
+    <th>Apps</th>
+    <th>Games</th>
+    <th>Screensavers</th>
+  </tr>
+  <tr>
+    <td><img src=".github/images/previews/apps.png"
+      alt="Apps menu" width="240"></td>
+    <td><img src=".github/images/previews/games.png"
+      alt="Games menu" width="240"></td>
+    <td><img src=".github/images/previews/screensavers.png"
+      alt="Screensavers menu" width="240"></td>
+  </tr>
+  <tr>
+    <th>System Tools</th>
+    <th>Settings</th>
+    <th>About</th>
+  </tr>
+  <tr>
+    <td><img src=".github/images/previews/system-tools.png"
+      alt="System Tools menu" width="240"></td>
+    <td><img src=".github/images/previews/settings.png"
+      alt="Settings menu" width="240"></td>
+    <td><img src=".github/images/previews/about.png"
+      alt="About screen" width="240"></td>
+  </tr>
+</table>
 
 ## Hardware <a name="hardware"></a>
 
-### Purchase device <a name="purchase-device"></a>
+<details>
+  <summary>Pico Portal OS Device</summary>
+  
+  | Item                           | Description                               |
+  | :----------------------------- | :---------------------------------------- |
+  | **Raspberry Pi Pico W**        | The main board.                           |
+  | **Pimoroni Pico Display Pack** | Works with both the 1.14" and 2.0" packs. |
+  | **600 mAh LiPo + Pico-UPS-B**  | Battery setup for the 1.14" device.       |
+  | **1600 mAh LiPo + LiPo SHIM**  | Battery setup for the 2.0" device.        |
 
-You can purchase a fully assembled Pico Portal XL, Pico Portal Mini, or a 3D-printed enclosure/case for your own build from Lambda Guru:
+</details>
 
-🔗 https://www.lambda.guru/
+<details>
+  <summary>Raspberry Pi Pico W</summary>
+  
+  | Spec        | Detail                                                       |
+  | :---------- | :----------------------------------------------------------- |
+  | MCU         | RP2040 - dual-core Arm Cortex-M0+ @ up to 133 MHz.           |
+  | RAM         | 264 KB SRAM.                                                 |
+  | Flash       | 2 MB onboard QSPI flash.                                     |
+  | Wireless    | Infineon CYW43439 - 2.4 GHz Wi-Fi 4 (802.11n) + Bluetooth.   |
+  | GPIO        | 26 multi-function pins (3.3 V logic - **not** 5 V tolerant). |
+  | USB         | Micro-USB, used for power, programming, and the REPL.        |
+  | Onboard LED | Driven through the wireless chip - `machine.Pin("LED")`.     |
+  | Bluetooth   | Present on the CYW43439.                                     |
 
-> ![Info][img-info] **Note:** The 3D print files are available on [Lambda Guru][url-lambda-guru] for a small fee (the first time I've ever charged for models, see my free collection [here][url-free-3d]). The enclosures/cases on Lambda Guru are specifically designed for the parts listed below.
+</details>
 
-> ![Info][img-info] **Note:** If you'd like to do your own custom build there are other alternative 3D printable cases out there on websites such as [thingiverse][url-thingiverse]. Be sure to show off a picture of your build by submitting a ticket [here][url-new-issue]! Your images will likely be shared on places like the Lambda Guru website or this repository for the community to see!
+<details>
+  <summary>Pimoroni Pico Display Pack</summary>
+  
+  | Variant               | Resolution | Driver | `config.json` value      |
+  | :-------------------- | :--------- | :----- | :----------------------- |
+  | Display Pack (1.14")  | 240 × 135  | ST7789 | `DISPLAY_PICO_DISPLAY`   |
+  | Display Pack 2.0 (2") | 320 × 240  | ST7789 | `DISPLAY_PICO_DISPLAY_2` |
 
-### Build your own <a name="build-your-own"></a>
+> ![Info][img-info] **The panel size cannot be auto-detected.** Both packs use
+> the same ST7789 controller, so there is no chip ID, ID pin, or API that
+> reports the screen size. Because of this, a one-time boot message appears
+> which has the user select their screen size, hold the **bottom-left button**
+> on boot to re-pick.
 
-To replicate the original Pico Portal devices found on [Lambda Guru][url-lambda-guru], you will need the following:
+> ![Info][img-info] The OS draws everything relative to `graphics.get_bounds()`,
+> so the UI scales itself to whichever panel you have.
 
-**Pico Portal XL** parts list:
+</details>
 
-| Part                           | Link                                                                                 |
-| :----------------------------- | :----------------------------------------------------------------------------------- |
-| Raspberry Pi Pico W            | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
-| Pimoroni Pico Display Pack 2.0 | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack-2-0)                 |
-| 3D Printed Enclosure (XL)      | [Lambda Guru](https://www.lambda.guru/)                                              |
-| 1600 mAh LiPo Battery          | —                                                                                    |
-| LiPo SHIM                      | [Pimoroni](https://shop.pimoroni.com/products/pico-lipo-shim?variant=32369543086163) |
+<details>
+  <summary>Buttons</summary>
+  Four buttons, from the Pimoroni Pico Display Pack:
 
-**Pico Portal Mini** parts list:
+| Physical position | GPIO | The OS action |
+| :---------------- | :--- | :------------ |
+| Top left          | 13   | Back          |
+| Top right         | 12   | Select        |
+| Bottom left       | 15   | Up / previous |
+| Bottom right      | 14   | Down / next   |
 
-| Part                        | Link                                                                                 |
-| :-------------------------- | :----------------------------------------------------------------------------------- |
-| Raspberry Pi Pico W         | [ThePiHut](https://thepihut.com/products/raspberry-pi-pico-w?variant=41952994787523) |
-| Pimoroni Pico Display Pack  | [Pimoroni](https://shop.pimoroni.com/products/pico-display-pack)                     |
-| 3D Printed Enclosure (Mini) | [Lambda Guru](https://www.lambda.guru/)                                              |
-| 600 mAh LiPo Battery        | —                                                                                    |
-| Pico-UPS-B                  | [Waveshare](https://www.waveshare.com/pico-ups-b.htm)                                |
+</details>
 
-> ![Info][img-info] **Note:** This project can be ran standalone on a Raspberry Pi Pico W! Additional hardware is only required for the portable version.
+<details>
+  <summary>Known constraints & gotchas </summary>
 
-<p align="right">[ <a href="#index">Index</a> ]</p>
+- **RAM is tight (264 KB).** Keep frame buffers and message history modest. The
+  OS redraws the whole screen each frame rather than hoarding state.
+- **`Button.read()` is edge-triggered.** It returns `True` a single time per
+  physical press. Don't expect a held button to keep returning `True`.
+- **3.3 V logic, not 5 V tolerant.** Relevant if you ever add external sensors.
+- **The onboard LED goes through the Wi-Fi chip** on the Pico _W_, so it's
+  `Pin("LED")`, not a numbered GPIO like on the non-W Pico.
+- **Display 2.0 uses the known-good Pico Portal rotation.** The OS initializes
+  it with `rotate=270` and an 8-bit framebuffer to fit the Pico's limited RAM.
 
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+</details>
 
-## Firmware Setup <a name="firmware-setup"></a>
+## Software Guide <a name="software-guide"></a>
 
-### Connecting to PC <a name="connecting"></a>
+<details>
+  <summary>Main Menu</summary>
 
-To connect your Raspberry Pi Pico W to your PC for firmware installation, follow these steps:
+| Main Menu           | What it does                                       |
+| :------------------ | :------------------------------------------------- |
+| **Bluetooth Tools** | BLE device discovery, tracking, and sensor data.   |
+| **WiFi Tools**      | AP scans, LAN service discovery, and a local AP.   |
+| **Apps**            | Bible readings, dice, stopwatch, and weather.      |
+| **Games**           | Breakout, Reflex, Snake, and Tetris.               |
+| **Screensavers**    | Visuals to preview or use while menus are idle.    |
+| **System Tools**    | Power, storage, display, and device diagnostics.   |
+| **Settings**        | Clock, display, LEDs, idle saver, units, and WiFi. |
+| **About**           | Scrollable system details, tips, and credits.      |
 
-1. Make sure your Raspberry Pi Pico is not connected to any power source.
+</details>
 
-2. Hold down the BOOTSEL button on your Pico.
+<details>
+  <summary>Bluetooth Tools</summary>
+  
+  | Bluetooth Tools       | What it does                                    |
+  | :-------------------- | :---------------------------------------------- |
+  | **Bluetooth Sniffer** | Discover BLE devices and track their RSSI.      |
+  | **Sensor Radar**      | Read temperature and humidity from BLE adverts. |
 
-3. Connect the Pico to your computer using a Micro USB cable.
+> ![Info][img-info] Bluetooth Sniffer's seek view includes signal bars, a
+> radar-style display, an RSSI history trace, and a stronger/weaker trend. These
+> indicate signal strength, not a measured distance or direction.
 
-4. Release the BOOTSEL button. The device should appear on your computer as a USB Mass Storage Device.
+> ![Info][img-info] Sensor Radar displays readings from nearby BLE sensors.
+> Cheap BLE sensors put the current temperature and humidity straight into their
+> advertising packets, so it decodes the unencrypted formats they broadcast:
+> BTHome v2, Xiaomi/Mijia MiBeacon, ATC and pvvx custom firmware, and Govee.
+> Nothing is paired, connected to, or requested.
 
-> ![Info][img-info] **Note:** You only need to do this for Firmware installation. After the firmware is installed, you can connect your Pico to your computer without holding the BOOTSEL button.
+</details>
 
-### Installing the Pimoroni MicroPython Firmware <a name="installing-firmware"></a>
+<details>
+  <summary>Wi-Fi Tools</summary>
+  
+  | Wi-Fi Tools           | What it does                                     |
+  | :-------------------- | :----------------------------------------------- |
+  | **Pico Portal**       | Host a local AP with classroom training pages.   |
+  | **Channel Radar**     | Count APs by channel; suggest channel 1, 6, 11.  |
+  | **mDNS/SSDP Sniffer** | Query devices and services on joined WiFi.       |
+  | **Network Monitor**   | Track AP arrivals, losses, and open networks.    |
+  | **WiFi Analyzer**     | Plot AP signal levels and channel-count history. |
+  | **WiFi Sniffer**      | List nearby APs and track a selected AP's RSSI.  |
 
-To install MicroPython on your Raspberry Pi Pico W after [connecting to your computer](#connecting-to-computer), follow these steps:
+> ![Info][img-info] Pico Portal lets you configure the AP name and password,
+> choose login and success-page templates, start the portal explicitly, and view
+> or clear its bounded submission log.
 
-1. Download the latest Pimoroni Pico W UF2 file "picow-vXX.YY.ZZ-pimoroni-micropython.uf2" from the official releases:
+> ![Info][img-info] Use sample data only for classroom demonstrations. Submitted
+> username and password values are stored in `/portal.log` on the device; never
+> enter real credentials. You can view or clear that log from Pico Portal.
 
-    - https://github.com/pimoroni/pimoroni-pico/releases
+> ![Info][img-info] The mDNS/SSDP Sniffer lists Chromecasts, printers, speakers,
+> and smart plugs on the network you joined. It sends only standard
+> service-discovery requests, joins the relevant multicast groups, and
+> inventories the responses.
 
-2. Connect your Raspberry Pi Pico W to your PC, see [Connecting to PC](#connecting-to-pc).
+> ![Info][img-info] The WiFi scan tools use 2.4 GHz access-point scan results,
+> including SSID, BSSID, channel, RSSI, and security status. The analyzer's
+> waterfall and Channel Radar's recommendation are based on AP counts, not
+> measured spectrum energy or traffic throughput. WiFi Sniffer's seek view has
+> signal bars, a radar-style display, an RSSI trace, and a signal trend.
 
-3. Drag and drop the UF2 file onto the RPI-RP2 drive. This will program the MicroPython firmware onto your Pico.
+</details>
 
-4. Wait for a few seconds. The board will automatically reboot. Your Pico will now be running MicroPython.
+<details>
+  <summary>Apps</summary>
+  
+  | Apps             | What it does                                        |
+  | :--------------- | :-------------------------------------------------- |
+  | **Bible Verses** | Browse, scroll, or randomize offline WEB excerpts.  |
+  | **Dice Roller**  | Roll a D6 or D20, flip a coin, or draw a fortune.   |
+  | **Stopwatch**    | Start, stop, reset, and keep the latest three laps. |
+  | **Weather**      | Current weather and a three-day US ZIP forecast.    |
 
-<p align="right">[ <a href="#index">Index</a> ]</p>
+> ![Info][img-info] Bible Verses streams its curated catalog from flash, keeping
+> only the current verse in SRAM. The included modern-English excerpts use the
+> public-domain [World English Bible](https://ebible.org/engwebp/copyright.htm).
+> It's a fun example on how to add your own books & text to your device for
+> reading.
 
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+> ![Info][img-info] Weather requires a WiFi connection selected in WiFi
+> Settings. The other Apps work offline.
 
-## Software Setup <a name="software-setup"></a>
+> ![Info][img-info] Weather uses a compact Zippopotam US ZIP lookup followed by
+> the key-free [Open-Meteo forecast API](https://open-meteo.com/en/docs).
 
-### Installing Software <a name="installing-software"></a>
+</details>
 
-> ![Info][img-info] **Note:** This project uses Node.js. Make sure you have Node.js installed on your system before proceeding.
+<details>
+  <summary>Games</summary>
+  
+  | Games        | What it does                                         |
+  | :----------- | :--------------------------------------------------- |
+  | **Breakout** | Move a paddle, bounce the ball, and clear bricks.    |
+  | **Reflex**   | Measure reaction time and track your session best.   |
+  | **Snake**    | Eat food and grow while avoiding walls and yourself. |
+  | **Tetris**   | Move and rotate falling blocks to clear full rows.   |
 
-1. Install project dependencies:
+</details>
 
-    ```bash
-    npm install
-    ```
+<details>
+  <summary>Screensavers</summary>
+  
+  | Screensavers      | What it does                                   |
+  | :---------------- | :--------------------------------------------- |
+  | **Aquarium**      | Swimming pixel fish and rising bubbles.        |
+  | **Boot Loop**     | Simulated retro BIOS and boot messages.        |
+  | **Circuit Trace** | Animated paths resembling circuit traces.      |
+  | **Code Clock**    | Local time and timezone over hexadecimal code. |
+  | **DVD Bounce**    | A DVD logo bouncing off the screen edges.      |
+  | **Fireplace**     | Animated pixel flames.                         |
+  | **Game of Life**  | Conway's cellular automaton.                   |
+  | **Hacker Term**   | Simulated scrolling terminal commands.         |
+  | **Hex Stream**    | Scrolling generated hexadecimal values.        |
+  | **Matrix**        | Falling columns of phosphor glyphs.            |
+  | **Neural Net**    | Pulsing nodes and connections.                 |
+  | **Nyan Cat**      | A pixel cat flying with a rainbow trail.       |
+  | **Radar**         | A rotating sweep with simulated contacts.      |
+  | **Sorting**       | Animated bubble sorting of bars.               |
+  | **Starfield**     | Stars moving toward the viewer.                |
+  | **System Dash**   | Real CPU temperature, RAM, flash, and uptime.  |
+  | **Wireframe**     | A moving perspective grid.                     |
 
-2. Install Thonny IDE:
+> ![Info][img-info] Selecting a screensaver previews it and saves it as the idle
+> default. Any button exits the animation. Display Settings can disable
+> automatic activation or set a 60, 120, or 300 second menu idle timeout.
 
-    - https://thonny.org/
+</details>
 
-3. Open Thonny IDE and connect to your Raspberry Pi Pico W via USB.
+<details>
+  <summary>System Tools</summary>
+  
+  | System Tools        | What it does                                    |
+  | :------------------ | :---------------------------------------------- |
+  | **Battery Info**    | Power source, voltage, and estimated charge.    |
+  | **Filesystem Info** | Flash usage, file/directory counts, sizes.      |
+  | **Screen Test**     | Test screen colors and RGB LED effects.         |
+  | **System Monitor**  | CPU temperature, RAM, flash, power, and uptime. |
 
-4. Copy the contents from `src/` (this repo) to the root of your Raspberry Pi Pico W using the Thonny IDE.
+> ![Info][img-info] Battery Info chooses its hardware profile from
+> `display.type`: Pico-UPS-B for 1.14", LiPo SHIM for 2.0". Available voltage
+> and current readings depend on that hardware. Charge percentage is estimated
+> from voltage rather than measured by a fuel gauge. LiPo SHIM cell voltage and
+> percentage are unavailable while USB is attached.
 
-    > ![Info][img-info] **Note:** Be sure the "src/modules/" is copied and that the folder exists.
+</details>
 
-5. Add HTML template files to the `src/templates/` folder which can be set in `options.json` manually or in the menu while the device is running (press B to open the menu). This repo comes with two templates, the first `example.html` has a success page `success.html` on login (default), the second `example-two.html` does not.
+<details>
+  <summary>Settings</summary>
+  
+  | Settings              | What it does                                  |
+  | :-------------------- | :-------------------------------------------- |
+  | **Clock Settings**    | Choose timezone, automatic DST, and NTP sync. |
+  | **Display Settings**  | Theme, text size, lights, and idle saver.     |
+  | **Regional Settings** | 12/24-hour time, C/F, and imperial/metric.    |
+  | **WiFi Settings**     | Scan, join, disconnect, or forget WiFi.       |
 
-    > ![Info][img-info] **Attention Security Professionals:** Security researchers, penetration testers, and ethical hackers can explore the [Red Portals repository][url-red-portals] to learn how to use this tool for testing rogue access points and enhancing network defenses.
+> ![Info][img-info] Clock Settings offers US timezone presets and UTC. Syncing
+> requires joined WiFi.
 
-    Security researchers, penetration testers, and ethical hackers see here to learn how to use this to test rogue access points with this tool.
+> ![Info][img-info] Display Settings controls scanlines, screen and RGB LED
+> brightness, status LED behavior, text size, and screensaver choice and
+> timeout.
 
-6. Unplug your Raspberry Pi Pico W from your computer and connect it to a power source.
+</details>
 
-7. Your Raspberry Pi Pico W will now boot up and display the Pico Portal interface on the Pimoroni screen.
+<details>
+  <summary>About</summary>
+  
+  | About                  | What it does                              |
+  | :--------------------- | :---------------------------------------- |
+  | **System Information** | OS version, hardware, firmware, and tips. |
+  | **Legal / Use**        | Usage guidance and warranty information.  |
+  | **Built By**           | Author credit and CC-BY-NC-4.0 license.   |
 
-### User Defined Settings <a name="user-defined-settings"></a>
+> ![Info][img-info] Notice: Use these tools to survey **your own** airspace.
 
-You can customize the Pico Portal settings by editing the `src/options.py` file. The settings are as follows:
+</details>
 
-```json
-{
-    "wifi_ssid": "WiFi",
-    "wifi_password": "",
-    "wifi_domain": "setup.local",
-    "template": "example.html",
-    "display_type": "DISPLAY_PICO_DISPLAY",
-    "enable_dark_mode": false,
-    "enable_timestamps": false,
-    "screen_brightness": 0.75,
-    "led_brightness": 0.1
-}
-```
+## Installation <a name="installation"></a>
 
-| Setting             | Description                                                                                                                                 |
-| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| `wifi_ssid`         | The SSID of the Wi-Fi network you want to create.                                                                                           |
-| `wifi_password`     | The password for the Wi-Fi network you want to create. Make sure your password is 8+ characters. Leave blank for an open network (default). |
-| `wifi_domain`       | The domain name for the captive portal displayed on the connecting device.                                                                  |
-| `template`          | The HTML template file to use for the captive portal. This can also be set from the menu on the device during run.                          |
-| `display_type`      | The type of display you are using. Options are `DISPLAY_PICO_DISPLAY` (default) or `DISPLAY_PICO_DISPLAY_2`.                                |
-| `enable_dark_mode`  | Whether to enable dark mode for the display. Options are `true` or `false`.                                                                 |
-| `enable_timestamps` | Enable or disable timestamps for the log. Options are `true` or `false`.                                                                    |
-| `screen_brightness` | The brightness of the Pico Display screen, as a range from 0.0 to 1.0. Default is 0.75 (75%), 0 for off.                                    |
-| `led_brightness`    | The brightness of the Pico Display LED, as a range from 0.0 to 1.0. Default is 0.1 (10%), 0 for off.                                        |
+<details>
+  <summary>Install Firmware</summary>
 
-> ![Info][img-info] **Note:** If you don't have a screen, any option for `display_type` will work.
+The device runs the **Pimoroni MicroPython** UF2, not vanilla MicroPython. That
+build bundles the C modules the OS relies on:
 
-> ![Info][img-info] **Note:** Turn the power on and off if you change the Wi-Fi password to fully update it.
+- `picographics` - the `PicoGraphics` drawing API (pens, shapes, text, fonts).
+- `pimoroni` - `Button`, `RGBLED`, and other helpers.
+- `machine`, `uasyncio`, `time`, `random`, `json` - standard MicroPython.
 
-### Button Functions <a name="button-functions"></a>
+Grab the latest `picow` UF2 from
+<https://github.com/pimoroni/pimoroni-pico/releases> and flash it by holding
+**BOOTSEL** while plugging in, then dragging the UF2 onto the `RPI-RP2` drive.
 
-The Pico Portal has four buttons that can be used to interact with the device. The button functions are as follows:
+</details>
 
-| Button | Function                                                      |
-| :----- | :------------------------------------------------------------ |
-| `A`    | Select item (i.e. in the menu).                               |
-| `B`    | Open or close the "Select Template" menu.                     |
-| `X`    | Scroll down one line of log/menu. Hold to scroll down faster. |
-| `Y`    | Scroll up one line of log/menu. Hold to scroll down faster.   |
+<details>
+  <summary>Build Pico Portal OS</summary>
 
-Button layout:
+Using Python 3.9+, install an `mpy-cross` release compatible with the
+MicroPython version in your Pimoroni firmware, then build:
 
 ```bash
- Pico Display       Pico Display 2.0
-|=============|  |=====================|
-|             |  |   (B)         (A)   |
-|  (B)   (A)  |  | ------------------- |
-| ----------- |  | |                 | |
-| |         | |  | |                 | |
-| |         | |  | |                 | |
-| |         | |  | |                 | |
-| |         | |  | |                 | |
-| |         | |  | |                 | |
-| ----------- |  | |                 | |
-|  (Y)   (X)  |  | ------------------- |
-|    (LED)    |  |   (Y)  (LED)  (X)   |
-|=============|  |=====================|
+python -m pip install mpy-cross
+python -B .scripts/build.py
 ```
 
-<p align="right">[ <a href="#index">Index</a> ]</p>
+Upload the contents of `dist/` to the Pico root.
 
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+</details>
+
+<details>
+  <summary>Install Pico Portal OS</summary>
+  
+  Using [Thonny](https://thonny.org/) (or
+   `mpremote`), copy the _contents_ of `dist/` (see
+   "Build Pico Portal OS") to the root of the Pico:
+
+Keep `config.json` at the device root. It contains all settings, and can be
+edited from your machine.
+
+```text
+Pico (/)
+├── main.py
+├── config.json
+├── pico-portal-os/
+└── templates/
+```
+
+Unplug and replug, or hit the reset.
+
+> ![Info][img-info] Notice: Keep `.pyc` files and `__pycache__/` folders out of
+> uploads, they break Thonny uploads to the Pico.
+
+> ![Info][img-info] Copying `config.json` replaces saved settings and WiFi
+> credentials. Back up the device's config before updating, or skip that file to
+> preserve its settings.
+
+> ![Info][img-info] Remove old `.py` files from the device's `pico-portal-os/`
+> tree when installing the build. Source files take precedence over matching
+> `.mpy` modules, so leftover development files bypass the build. Keep the root
+> `main.py` boot file.
+
+</details>
 
 ## Development <a name="development"></a>
 
-### Requirements <a name="requirements"></a>
+<details>
+  <summary>Requirements</summary>
 
-Make sure the following are installed on your system before you begin:
+- [Python 3.9+](https://www.python.org/downloads/)
+- Install dependencies with `python -m pip install -r requirements.txt`.
 
--   [Node.js][url-node-js]
--   [Python][url-python]
--   [Thonny IDE][url-thonny-ide]
+</details>
 
-### Development Setup <a name="development-setup"></a>
+<details>
+  <summary>Commands</summary>
+  
+  Run these from the repository root with Python 3.9+:
 
-Using a terminal, follow these steps to set up the development environment:
+| Command                                     | Output                    |
+| ------------------------------------------- | ------------------------- |
+| `python -B .scripts/build.py`               | Build optimized `dist/`.  |
+| `python -B .scripts/tooling/build_test.py`  | Check build helpers.      |
+| `python -B .scripts/tooling/config_test.py` | Check schema and storage. |
 
-1. Fork and clone the repository:
+Use an 80-character line limit. Format and lint with:
 
-    ```bash
-    git clone
-    ```
+```bash
+python -m black src/ .scripts/
+python -m flake8 --show-source src/ .scripts/
+```
 
-2. Install project dependencies. This will install the required Node.js packages for running `setup.ts` which will download the required asset files to the `src/modules` folder. Run in the root of the project:
+Install and run the configured pre-commit hooks with:
 
-    ```bash
-    npm install
-    ```
+```bash
+pre-commit install
+pre-commit run --all-files
+```
 
-3. Run the python setup script. This will download the files for linting (flake8), formatting (black), and pre-commit hooks (pre-commit). Basically everything we need for enforcing code quality.
+</details>
 
-    ```bash
-    # Install the required packages
-    npm run lint:install
-    # Install the pre-commit hooks
-    pre-commit install
-    # Update the pre-commit hooks
-    pre-commit autoupdate
-    ```
+<details>
+  <summary>Testing source files on-device</summary>
 
-4. Program, test, and debug the project using the Thonny IDE.
+Copying `src/` directly to the Pico is possible for development, but a full
+upload isn't recommended. Files take up flash storage, importing source files
+need extra RAM, which has only 264 KB SRAM.
 
-5. Commit (pre commit hooks should run and verify the code) and push your changes.
+Install `dist/` first, then copy and test one changed `.py` file at a time.
 
-6. Create a pull request [here][url-pull-requests].
+After testing, rebuild and upload its compiled `.mpy` file ([info][mpy-files]).
 
-Thank you for contributing!
+</details>
 
-### Scripts <a name="scripts"></a>
+<details>
+  <summary>Checking changes</summary>
 
-| Script         | Description                                                       |
-| :------------- | :---------------------------------------------------------------- |
-| `format`       | Formats the Python code using [Black][url-black].                 |
-| `lint`         | Lints the Python code using Flake8.                               |
-| `lint:install` | Installs the required Python packages for linting and formatting. |
-| `postinstall`  | Downloads the required asset files to the `src/modules` folder.   |
+The runtime uses MicroPython-only modules and cannot run on desktop CPython.
+Syntax-check it without creating upload-breaking caches:
 
-<p align="right">[ <a href="#index">Index</a> ]</p>
+```bash
+python -B -c "
+from pathlib import Path
+for path in Path('src').rglob('*.py'):
+    compile(path.read_text(encoding='utf-8'), str(path), 'exec')
+"
+```
 
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+Never run `py_compile` or `compileall` against `src/`. For desktop import
+checks, set `PYTHONDONTWRITEBYTECODE=1` or `sys.dont_write_bytecode = True`.
+Before uploading, remove any `src/**/__pycache__/` folders and `.pyc` files.
 
-## Licensing <a name="licensing"></a>
+</details>
 
-This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** License. See the [LICENSE.md](LICENSE.md) file for the pertaining license text.
+<details>
+  <summary>Editing <code>src/config.json</code></summary>
+
+| Property                    | Possible values                                |
+| --------------------------- | ---------------------------------------------- |
+| `$schema`                   | Schema reference string (editor only).         |
+| `clock.daylight_saving`     | `true` or `false` (US DST rules).              |
+| `clock.timezone_name`       | `"Alaska"`, `"Central"`, `"Eastern"`           |
+|                             | `"Hawaii"`, `"Mountain"`, `"Pacific"`, `"UTC"` |
+| `clock.utc_offset_hours`    | Integer from -12 to 14, before DST.            |
+| `display.brightness`        | Number from 0 (dark) to 1 (full).              |
+| `display.font_px`           | `8` or `16`                                    |
+| `display.scanlines`         | `true` or `false`                              |
+| `display.theme`             | `"amber"`, `"blue"`, `"cyan"`, `"green"`       |
+|                             | `"purple"`, `"red"`, `"white"`                 |
+| `display.type`              | `"auto"` (boot picker)                         |
+|                             | `"DISPLAY_PICO_DISPLAY"` (1.14 inch)           |
+|                             | `"DISPLAY_PICO_DISPLAY_2"` (2.0 inch)          |
+| `led.brightness`            | `0` (off), or a number from 0.05 to 1.         |
+| `led.status`                | `"heartbeat"`, `"off"`, `"on"`                 |
+| `portal.password`           | `""` (open AP), or 8-63 characters.            |
+| `portal.ssid`               | String of 1-32 characters.                     |
+| `portal.success_template`   | `""` (auto), or a .htm/.html filename.         |
+| `portal.template`           | `""` (auto), or a .htm/.html filename.         |
+| `regional.hour_format`      | `12` or `24`                                   |
+| `regional.temperature_unit` | `"C"` or `"F"`                                 |
+| `regional.unit_system`      | `"imperial"` or `"metric"`                     |
+| `screensaver.name`          | `"AQUARIUM"`, `"BOOT LOOP"`                    |
+|                             | `"CIRCUIT TRACE"`, `"CODE CLOCK"`              |
+|                             | `"DVD BOUNCE"`, `"FIREPLACE"`                  |
+|                             | `"GAME OF LIFE"`, `"HACKER TERM"`              |
+|                             | `"HEX STREAM"`, `"MATRIX"`                     |
+|                             | `"NEURAL NET"`, `"NYAN CAT"`, `"RADAR"`        |
+|                             | `"SORTING"`, `"STARFIELD"`                     |
+|                             | `"SYSTEM DASH"`, `"WIREFRAME"`                 |
+| `screensaver.timeout`       | Integer >= 0 seconds; `0` disables.            |
+| `weather.latitude`          | Number -90 to 90, numeric string, or `null`.   |
+| `weather.location`          | String, including `""` (cached place name).    |
+| `weather.longitude`         | Number -180 to 180, numeric string, or `null`. |
+| `weather.zip_code`          | `""`, five-digit US ZIP string, or ZIP+4.      |
+| `wifi.password`             | 0-63 characters; `""` for an open network.     |
+| `wifi.ssid`                 | 0-32 characters; `""` skips boot connection.   |
+
+> ![Info][img-info] Match `clock.utc_offset_hours` to the timezone: Alaska -9,
+> Central -6, Eastern -5, Hawaii -10, Mountain -7, Pacific -8, UTC 0. Turn DST
+> off for Hawaii or UTC.
+
+> ![Info][img-info] Portal template filenames belong in `/templates/login/` and
+> success templates in `/templates/success/`.
+
+> ![Info][img-info] Weather caches latitude, longitude, and location. A `null`
+> coordinate triggers ZIP lookup. ZIP strings can be `"90210"` or
+> `"90210-1234"`.
+
+> ![Info][img-info] The idle-timeout menu offers 0, 60, 120, and 300 seconds.
+
+</details>
+
+## License <a name="license"></a>
+
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). See
+[LICENSE.md](LICENSE.md).
 
 `SPDX-License-Identifier: CC-BY-NC-4.0`
 
-Basically, everything is free for you to use personally. I just ask that you don't sell this software. If you want to use it for commercial purposes, please contact me first and we can work something out.
-
-Feel free to build this project for yourself, your friends, or your family etc! You can also purchase this device from me directly fully assembled with a case [here](#purchase-device).
-
-Thank you for your understanding!
-
-<p align="right">[ <a href="#index">Index</a> ]</p>
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-## Wrapping Up <a name="wrapping-up"></a>
-
-Thank you for all of your support, I spent a long time working on this project and plan to support it long term. Really hoping the community joins in and helps me improve it from here. It's important to me that this project stays accessible to everyone, so please keep this software free and open source. If you have any questions, please let me know by opening an issue [here][url-new-issue].
-
-| Type                                                                      | Info                                                           |
-| :------------------------------------------------------------------------ | :------------------------------------------------------------- |
-| <img width="48" src=".github/images/ng-icons/email.svg" />                | webmaster@codytolene.com                                       |
-| <img width="48" src=".github/images/simple-icons/github.svg" />           | https://github.com/sponsors/CodyTolene                         |
-| <img width="48" src=".github/images/simple-icons/buymeacoffee.svg" />     | https://www.buymeacoffee.com/codytolene                        |
-| <img width="48" src=".github/images/simple-icons/bitcoin-btc-logo.svg" /> | bc1qfx3lvspkj0q077u3gnrnxqkqwyvcku2nml86wmudy7yf2u8edmqq0a5vnt |
-
-Fin. Happy programming friend!
-
-Cody Tolene
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-
-<!-- IMAGE REFERENCES -->
-
-[img-info]: .github/images/ng-icons/info.svg
-[img-pico-portal-mini-red]: .github/images/previews/mini_red.png
-[img-pico-portal-xl-blue]: .github/images/previews/xl_blue.png
-[img-software-demo]: .github/images/previews/software_demo.gif
-[img-warning]: .github/images/ng-icons/warn.svg
-
-<!-- LINK REFERENCES -->
-
-[url-black]: https://pypi.org/project/black/
-[url-free-3d]: https://github.com/CodyTolene/3D-Printing
-[url-lambda-guru]: https://www.lambda.guru/
-[url-new-issue]: https://github.com/CodyTolene/Pico-Portal/issues
-[url-node-js]: https://nodejs.org/
-[url-pull-requests]: https://github.com/CodyTolene/Pico-Portal/pulls
-[url-python]: https://www.python.org/
-[url-red-portals]: https://github.com/CodyTolene/Red-Portals
-[url-thingiverse]: https://www.thingiverse.com/
-[url-thonny-ide]: https://thonny.org/
-
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------->
+[img-info]: .github/images/info.svg
+[mpy-files]: https://docs.micropython.org/en/latest/reference/mpyfiles.html

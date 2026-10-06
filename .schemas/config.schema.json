@@ -1,0 +1,284 @@
+{
+    "$comment": "SPDX-License-Identifier: CC-BY-NC-4.0",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Device and app settings. Missing fields use defaults.",
+    "properties": {
+        "$schema": {
+            "description": "Editor reference, omitted from device builds.",
+            "type": "string"
+        },
+        "clock": {
+            "additionalProperties": false,
+            "description": "Local clock timezone and daylight saving settings.",
+            "properties": {
+                "daylight_saving": {
+                    "default": true,
+                    "description": "US DST rules; turn off for UTC/Hawaii.",
+                    "type": "boolean"
+                },
+                "timezone_name": {
+                    "default": "Central",
+                    "description": "Clock label and weather forecast timezone.",
+                    "enum": [
+                        "Alaska",
+                        "Central",
+                        "Eastern",
+                        "Hawaii",
+                        "Mountain",
+                        "Pacific",
+                        "UTC"
+                    ],
+                    "type": "string"
+                },
+                "utc_offset_hours": {
+                    "default": -6,
+                    "description": "UTC hours before DST; match timezone_name.",
+                    "examples": [-10, -9, -8, -7, -6, -5, 0],
+                    "maximum": 14,
+                    "minimum": -12,
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "display": {
+            "additionalProperties": false,
+            "description": "Screen hardware, brightness, text, and CRT theme.",
+            "properties": {
+                "brightness": {
+                    "default": 0.9,
+                    "description": "Screen brightness: 0 is dark, 1 is full.",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                "font_px": {
+                    "default": 8,
+                    "description": "Text height in pixels; must fit screen.",
+                    "enum": [8, 16],
+                    "type": "integer"
+                },
+                "scanlines": {
+                    "default": true,
+                    "description": "Draw the CRT scanline overlay.",
+                    "type": "boolean"
+                },
+                "theme": {
+                    "default": "green",
+                    "description": "CRT palette used across the interface.",
+                    "enum": [
+                        "amber",
+                        "blue",
+                        "cyan",
+                        "green",
+                        "purple",
+                        "red",
+                        "white"
+                    ],
+                    "type": "string"
+                },
+                "type": {
+                    "default": "auto",
+                    "description": "Display type; auto prompts on first boot.",
+                    "enum": [
+                        "DISPLAY_PICO_DISPLAY",
+                        "DISPLAY_PICO_DISPLAY_2",
+                        "auto"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "led": {
+            "additionalProperties": false,
+            "description": "RGB lamp brightness and status behavior.",
+            "properties": {
+                "brightness": {
+                    "anyOf": [
+                        {"const": 0},
+                        {"maximum": 1, "minimum": 0.05}
+                    ],
+                    "default": 0.05,
+                    "description": "Lamp brightness: 0 (off) or 0.05-1.",
+                    "type": "number"
+                },
+                "status": {
+                    "default": "heartbeat",
+                    "description": "Status light: pulse, off, or always on.",
+                    "enum": ["heartbeat", "off", "on"],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "portal": {
+            "additionalProperties": false,
+            "description": "Local access point and portal HTML templates.",
+            "properties": {
+                "password": {
+                    "anyOf": [
+                        {"const": ""},
+                        {"maxLength": 63, "minLength": 8}
+                    ],
+                    "default": "",
+                    "description": "AP password: empty or 8-63 characters.",
+                    "type": "string"
+                },
+                "ssid": {
+                    "default": "WiFi Setup",
+                    "description": "AP network name when the portal starts.",
+                    "maxLength": 32,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "success_template": {
+                    "default": "success.html",
+                    "description": "File in /templates/success; empty = auto.",
+                    "examples": ["success-alt.html", "success.html"],
+                    "pattern": "^(|[^/\\\\]+\\.[hH][tT][mM][lL]?)$",
+                    "type": "string"
+                },
+                "template": {
+                    "default": "",
+                    "description": "File in /templates/login; empty = auto.",
+                    "examples": ["example-alt.html", "example.html"],
+                    "pattern": "^(|[^/\\\\]+\\.[hH][tT][mM][lL]?)$",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "regional": {
+            "additionalProperties": false,
+            "description": "Time format, temperature, and measurement units.",
+            "properties": {
+                "hour_format": {
+                    "default": 24,
+                    "description": "12-hour AM/PM or 24-hour clock display.",
+                    "enum": [12, 24],
+                    "type": "integer"
+                },
+                "temperature_unit": {
+                    "default": "C",
+                    "description": "Celsius (C) or Fahrenheit (F).",
+                    "enum": ["C", "F"],
+                    "type": "string"
+                },
+                "unit_system": {
+                    "default": "imperial",
+                    "description": "Units: imperial miles/mph, metric km/kmh.",
+                    "enum": ["imperial", "metric"],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "screensaver": {
+            "additionalProperties": false,
+            "description": "Idle animation selection and activation delay.",
+            "properties": {
+                "name": {
+                    "default": "MATRIX",
+                    "description": "Animation to start after the idle timeout.",
+                    "enum": [
+                        "AQUARIUM",
+                        "BOOT LOOP",
+                        "CIRCUIT TRACE",
+                        "CODE CLOCK",
+                        "DVD BOUNCE",
+                        "FIREPLACE",
+                        "GAME OF LIFE",
+                        "HACKER TERM",
+                        "HEX STREAM",
+                        "MATRIX",
+                        "NEURAL NET",
+                        "NYAN CAT",
+                        "RADAR",
+                        "SORTING",
+                        "STARFIELD",
+                        "SYSTEM DASH",
+                        "WIREFRAME"
+                    ],
+                    "type": "string"
+                },
+                "timeout": {
+                    "default": 60,
+                    "description": "Idle timeout in seconds; 0 disables.",
+                    "examples": [0, 60, 120, 300],
+                    "minimum": 0,
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "weather": {
+            "additionalProperties": false,
+            "description": "US ZIP lookup and coordinates cached by Weather.",
+            "properties": {
+                "latitude": {
+                    "anyOf": [
+                        {"maximum": 90, "minimum": -90, "type": "number"},
+                        {
+                            "pattern": "^-?[0-9]+(\\.[0-9]+)?$",
+                            "type": "string"
+                        },
+                        {"type": "null"}
+                    ],
+                    "default": null,
+                    "description": "Cached latitude; null triggers ZIP lookup.",
+                    "readOnly": true
+                },
+                "location": {
+                    "default": "",
+                    "description": "Place name cached by Weather's ZIP lookup.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {"maximum": 180, "minimum": -180, "type": "number"},
+                        {
+                            "pattern": "^-?[0-9]+(\\.[0-9]+)?$",
+                            "type": "string"
+                        },
+                        {"type": "null"}
+                    ],
+                    "default": null,
+                    "description": "Cached longitude; null starts ZIP lookup.",
+                    "readOnly": true
+                },
+                "zip_code": {
+                    "default": "",
+                    "description": "US weather ZIP; empty means unconfigured.",
+                    "examples": ["", "90210"],
+                    "pattern": "^(|[0-9]{5}(-[0-9]{4})?)$",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "wifi": {
+            "additionalProperties": false,
+            "description": "Saved WiFi credentials for boot reconnection.",
+            "properties": {
+                "password": {
+                    "default": "",
+                    "description": "WiFi password; empty for an open network.",
+                    "maxLength": 63,
+                    "type": "string"
+                },
+                "ssid": {
+                    "default": "",
+                    "description": "Saved SSID; empty skips boot connection.",
+                    "maxLength": 32,
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "title": "Pico Portal OS configuration",
+    "type": "object"
+}
