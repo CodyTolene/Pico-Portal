@@ -1,6 +1,19 @@
 <div align="center">
   <img align="center" alt="Pico Portal OS Logo" src=".github/images/logo.png" />
   <h1 align="center">Pico Portal OS</h1>
+  <div>Fully assembled, with Pico Portal OS installed and ready to use.</div>
+  <div>
+    <a href="https://www.etsy.com/listing/4589958071">
+      <img
+        src="https://img.shields.io/badge/Pico_Portal-Etsy-F1641E"
+        alt="Shop Pico Portal on Etsy" height="32" />
+    </a>
+    <a href="https://www.etsy.com/listing/4589952593">
+      <img
+        src="https://img.shields.io/badge/Pico_Portal_XL-Etsy-F1641E"
+        alt="Shop Pico Portal XL on Etsy" height="32" />
+    </a>
+  </div>
 </div>
 
 ## Contents
