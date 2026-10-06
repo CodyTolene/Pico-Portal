@@ -1,23 +1,46 @@
-name: Python Linting
+name: Lint
 
 on:
   push:
   pull_request:
-  schedule:
-    # Runs every 7 days at midnight UTC
-    - cron: '0 0 */7 * *'
 
 jobs:
-  build:
-    name: Python Linting
-    runs-on: ubuntu-22.04
-
+  lint:
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install Python Dependencies
-      run: npm run lint:install
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    - name: Lint Python Code
-      run: npm run lint
+      - name: Install tooling
+        run: python -m pip install -r requirements.txt
+
+      - name: Install device compiler
+        run: python -m pip install mpy-cross==1.27.0
+
+      - name: Syntax check (MicroPython sources)
+        run: |
+          python -B - <<'PY'
+          from pathlib import Path
+
+          for path in Path("src").rglob("*.py"):
+              compile(path.read_text(encoding="utf-8"), str(path), "exec")
+          PY
+
+      - name: Black (format check)
+        run: python -m black --check src/ .scripts/
+
+      - name: Flake8
+        run: python -m flake8 --show-source src/ .scripts/
+
+      - name: Build helper regression tests
+        run: python -B .scripts/tooling/build_test.py
+
+      - name: Config schema, persistence, and sorting checks
+        run: python -B .scripts/tooling/config_test.py
+
+      - name: Device build
+        run: python -B .scripts/build.py

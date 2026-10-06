@@ -1,0 +1,44 @@
+{
+    "$schema": "../.schemas/config.schema.json",
+    "clock": {
+        "daylight_saving": true,
+        "timezone_name": "Central",
+        "utc_offset_hours": -6
+    },
+    "display": {
+        "brightness": 0.9,
+        "font_px": 8,
+        "scanlines": true,
+        "theme": "green",
+        "type": "auto"
+    },
+    "led": {
+        "brightness": 0.05,
+        "status": "heartbeat"
+    },
+    "portal": {
+        "password": "",
+        "ssid": "WiFi Setup",
+        "success_template": "success.html",
+        "template": "example.html"
+    },
+    "regional": {
+        "hour_format": 12,
+        "temperature_unit": "F",
+        "unit_system": "imperial"
+    },
+    "screensaver": {
+        "name": "MATRIX",
+        "timeout": 60
+    },
+    "weather": {
+        "latitude": null,
+        "location": "",
+        "longitude": null,
+        "zip_code": ""
+    },
+    "wifi": {
+        "password": "",
+        "ssid": ""
+    }
+}

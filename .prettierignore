@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Python caches
+__pycache__/
+
+# Legal text, keep verbatim
+LICENSE.md

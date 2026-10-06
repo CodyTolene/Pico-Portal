@@ -1,69 +1,107 @@
 # =============================================================================
 #  Project: Pico Portal
 #  License: CC-BY-NC-4.0
-#  Repository: https://github.com/CodyTolene/Pico-Portal
-#  Description: The main entry point for the Pico Portal device. This script
-#  will start the services for the device and keep the main loop running.
 # =============================================================================
 
+import gc
 import uasyncio  # type: ignore
-import sys
-import time
 
-# Local packages
-from services.button_service import ButtonService
-from services.menu_service import MenuService
-from services.messages_service import MessagesService
-from services.onboard_led_service import OnboardLedService
-from services.options_service import OptionsService
-from services.pico_display_led_service import PicoDisplayLedService
-from services.portal_service import PortalService
-from services.screen_service import ScreenService
-from services.splash_screen_service import SplashScreenService
+os_info = __import__("pico-portal-os")
+NAME = os_info.NAME
+VERSION = os_info.VERSION
+del os_info
+hardware = __import__("pico-portal-os.hardware", None, None, ("Screen",))
 
-# Ensure packages can be imported
-sys.path.append("/modules")
-sys.path.append("/services")
+BTN_BOTTOM_LEFT = 15  # hold at boot to re-run the display picker
 
-# Version
-VERSION = "1.5.1"
+
+async def _clock_sync_task(wifi):
+    """Resync the RTC from NTP every time the station link comes up.
+
+    The RP2040 clock resets on power loss, so the boot connection and any
+    later reconnect (WiFi Settings, a dropped AP coming back) each trigger a
+    fresh sync. CLOCK SETTINGS keeps its manual SYNC NOW on top of this.
+    """
+    was_connected = False
+    while True:
+        connected = wifi.is_connected()
+        if connected and not was_connected:
+            for _ in range(5):
+                if not wifi.is_connected():
+                    break
+                try:
+                    if wifi.sync_time():
+                        break
+                except Exception:  # noqa: BLE001
+                    pass
+                await uasyncio.sleep_ms(2000)
+            connected = wifi.is_connected()
+        was_connected = connected
+        await uasyncio.sleep_ms(1000)
 
 
 async def main():
-    options = OptionsService()
+    storage = __import__("pico-portal-os.storage", None, None, ("load_config",))
+    config = storage.load_config()
+    del storage
 
-    screen = ScreenService(options)
+    has_display = config["display"].get("type") in hardware.DISPLAY_TYPES
+    needs_pick = not has_display or hardware.button_held(BTN_BOTTOM_LEFT)
+    boot_type = (
+        "DISPLAY_PICO_DISPLAY" if needs_pick else config["display"]["type"]
+    )
 
-    await SplashScreenService(screen).show(duration=3)
+    gc.collect()
 
-    onboard_led = OnboardLedService()
-    pico_display_led = PicoDisplayLedService(options)
-    messages = MessagesService(options, screen)
-    menu = MenuService(messages, options)
-    buttons = ButtonService(menu, messages)
-    portal = PortalService(options, messages, pico_display_led)
+    screen = hardware.Screen(config, display_type=boot_type)
+    crt_module = __import__("pico-portal-os.crt", None, None, ("CRT",))
+    crt = crt_module.CRT(screen, config)
+    del crt_module
 
-    # Display the current version of the software on screen
-    await messages.display(f"Pico Portal v{VERSION}")
+    shell = __import__("pico-portal-os.shell", None, None, ("Context",))
 
-    # Set the display LED to white while starting up
-    await pico_display_led.set_color("WHITE")
+    lamp = hardware.Lamp(config)
+    heart = hardware.Heartbeat()
+    buttons = hardware.Buttons()
+    sensors = hardware.Sensors(boot_type, screen)
+    wifi = hardware.WiFi()
+    ble = hardware.BLE()
 
-    # Flash the onboard LED on and off every 3 seconds, indefinitely
-    # Useful for when no screen is connected to the Pico Portal
-    uasyncio.create_task(onboard_led.flash())
+    ctx = shell.Context(
+        crt,
+        lamp,
+        shell.Input(buttons),
+        sensors,
+        config,
+        wifi,
+        ble,
+    )
 
-    # Start Pico Portal services
-    uasyncio.create_task(portal.run())
+    threshold = getattr(gc, "threshold", None)
+    if threshold is not None:
+        threshold(gc.mem_alloc() + gc.mem_free() // 4)
 
-    # Handle the buttons and trigger actions based on button presses
-    uasyncio.create_task(buttons.run())
+    print("{} v{} booting...".format(NAME, VERSION))
 
-    # Keep the application running indefinitely while the power is on
-    while True:
-        await uasyncio.sleep(1)
+    uasyncio.create_task(shell.heartbeat_task(heart, config))
+
+    if needs_pick:
+        await shell.pick_display(ctx)
+
+    await shell.splash(ctx)
+
+    wifi_config = ctx.wifi_config
+    if wifi_config.get("ssid"):
+        try:
+            wifi.connect(wifi_config["ssid"], wifi_config.get("password", ""))
+        except Exception:  # noqa: BLE001
+            wifi.keep_connected = False
+
+    uasyncio.create_task(_clock_sync_task(wifi))
+
+    await shell.boot(ctx)
+    await shell.run(ctx)
 
 
 if __name__ == "__main__":
-    time.sleep(1)
     uasyncio.run(main())

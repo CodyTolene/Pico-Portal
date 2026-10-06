@@ -1,13 +1,11 @@
 [flake8]
-ignore = E501
-exclude = 
+extend-ignore = E203, W503
+exclude =
     .git,
     .github,
     __pycache__,
     build,
     dist,
     venv,
-    .venv,
-    node_modules,
-    src/modules,
+    .venv
 max-line-length = 80
