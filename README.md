@@ -188,7 +188,7 @@ finally scratched that itch.
   
   | Wi-Fi Tools           | What it does                                     |
   | :-------------------- | :----------------------------------------------- |
-  | **Pico Portal**       | Host a local AP with classroom training pages.   |
+  | **Pico Portal**       | Host a local AP.                                 |
   | **Channel Radar**     | Count APs by channel; suggest channel 1, 6, 11.  |
   | **mDNS/SSDP Sniffer** | Query devices and services on joined WiFi.       |
   | **Network Monitor**   | Track AP arrivals, losses, and open networks.    |
@@ -199,9 +199,9 @@ finally scratched that itch.
 > choose login and success-page templates, start the portal explicitly, and view
 > or clear its bounded submission log.
 
-> ![Info][img-info] Use sample data only for classroom demonstrations. Submitted
-> username and password values are stored in `/portal.log` on the device; never
-> enter real credentials. You can view or clear that log from Pico Portal.
+> ![Info][img-info] Use sample data only for demonstrations. Submitted username
+> and password values are stored in `/portal.log` on the device; never enter
+> real credentials. You can view or clear that log from Pico Portal.
 
 > ![Info][img-info] The mDNS/SSDP Sniffer lists Chromecasts, printers, speakers,
 > and smart plugs on the network you joined. It sends only standard
