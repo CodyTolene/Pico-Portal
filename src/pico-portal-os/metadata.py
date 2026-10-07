@@ -4,5 +4,5 @@
 #  SPDX-License-Identifier: CC-BY-NC-4.0
 # =============================================================================
 
-VERSION = "2.0.0"
+VERSION = "2.1.0"
 NAME = "Pico Portal OS"

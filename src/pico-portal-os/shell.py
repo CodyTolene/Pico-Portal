@@ -267,7 +267,7 @@ def _draw_rgb565_logo(crt, path, left, top, size, pens):
                     key = (red >> 3) << 4 | (green >> 4) << 2 | (blue >> 3)
                     pen = pens[key]
                     if pen is None:
-                        pen = crt.g.create_pen(
+                        pen = crt.screen.create_pen(
                             ((key >> 4) & 3) * 85,
                             ((key >> 2) & 3) * 85,
                             (key & 3) * 85,

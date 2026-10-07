@@ -54,6 +54,7 @@ async def main():
     gc.collect()
 
     screen = hardware.Screen(config, display_type=boot_type)
+    globals()["ppos_screenshot"] = hardware.write_screenshot
     crt_module = __import__("pico-portal-os.crt", None, None, ("CRT",))
     crt = crt_module.CRT(screen, config)
     del crt_module

@@ -101,10 +101,10 @@ class CRT:
         self.pen = {}
         self._theme_pens = {}
         self._accent_pens = {
-            name: self.g.create_pen(*rgb) for name, rgb in _ACCENTS.items()
+            name: self.screen.create_pen(*rgb) for name, rgb in _ACCENTS.items()
         }
         self._preview_pens = {
-            name: self.g.create_pen(*rgb)
+            name: self.screen.create_pen(*rgb)
             for name, rgb in _PREVIEW_COLORS.items()
         }
         self.set_theme(config["display"].get("theme", "green"))
@@ -117,7 +117,7 @@ class CRT:
             name = "green"
         if name not in self._theme_pens:
             self._theme_pens[name] = {
-                pen_name: self.g.create_pen(*rgb)
+                pen_name: self.screen.create_pen(*rgb)
                 for pen_name, rgb in THEMES[name].items()
             }
         self.pen = dict(self._theme_pens[name])

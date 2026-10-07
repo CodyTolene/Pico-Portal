@@ -23,6 +23,7 @@ from picographics import (  # type: ignore
     PicoGraphics,
     DISPLAY_PICO_DISPLAY,
     DISPLAY_PICO_DISPLAY_2,
+    PEN_RGB332,
 )
 
 try:
@@ -31,6 +32,7 @@ except ImportError:  # older firmware
     PEN_P8 = None
 
 DISPLAY_TYPES = ("DISPLAY_PICO_DISPLAY", "DISPLAY_PICO_DISPLAY_2")
+_ACTIVE_SCREEN = None
 
 
 def reset():
@@ -58,13 +60,15 @@ class Screen:
 
     def __init__(self, config, display_type=None):
         resolved = display_type or config["display"].get("type", "auto")
+        self.pixel_format = "RGB332"
 
         if resolved == "DISPLAY_PICO_DISPLAY_2":
             if PEN_P8 is None:
-                self.buffer = bytearray(320 * 240 * 2)
+                self.buffer = bytearray(320 * 240)
                 self.graphics = PicoGraphics(
                     display=DISPLAY_PICO_DISPLAY_2,
                     rotate=270,
+                    pen_type=PEN_RGB332,
                     buffer=self.buffer,
                 )
             else:
@@ -76,25 +80,39 @@ class Screen:
                         pen_type=PEN_P8,
                         buffer=self.buffer,
                     )
+                    self.pixel_format = "P8"
                 except (TypeError, ValueError):
                     self.buffer = None
                     gc.collect()
-                    self.buffer = bytearray(320 * 240 * 2)
+                    self.buffer = bytearray(320 * 240)
                     self.graphics = PicoGraphics(
                         display=DISPLAY_PICO_DISPLAY_2,
                         rotate=270,
+                        pen_type=PEN_RGB332,
                         buffer=self.buffer,
                     )
         else:
-            self.buffer = bytearray(240 * 135 * 2)
+            self.buffer = bytearray(240 * 135)
             self.graphics = PicoGraphics(
-                display=DISPLAY_PICO_DISPLAY, buffer=self.buffer
+                display=DISPLAY_PICO_DISPLAY,
+                pen_type=PEN_RGB332,
+                buffer=self.buffer,
             )
 
         self.width, self.height = self.graphics.get_bounds()
         self.base_brightness = _level(config["display"].get("brightness"), 0.9)
         self.graphics.set_backlight(self.base_brightness)
         self.graphics.set_font("bitmap8")
+        self.palette = {} if self.pixel_format == "P8" else None
+        global _ACTIVE_SCREEN
+        _ACTIVE_SCREEN = self
+
+    def create_pen(self, red, green, blue):
+        """Create a drawing pen and retain indexed colors for USB capture."""
+        pen = self.graphics.create_pen(red, green, blue)
+        if self.palette is not None:
+            self.palette[int(pen)] = (red, green, blue)
+        return pen
 
     def backlight(self, level):
         self.graphics.set_backlight(level)
@@ -102,6 +120,37 @@ class Screen:
     def set_brightness(self, level):
         self.base_brightness = _level(level, self.base_brightness)
         self.backlight(self.base_brightness)
+
+
+def write_screenshot():
+    """Stream the active framebuffer to the browser from the USB REPL."""
+    import binascii
+
+    screen = _ACTIVE_SCREEN
+    if screen is None:
+        print("PPOS_ERROR No active screen")
+        return
+    print(
+        "PPOS_SCREEN {} {} {}".format(
+            screen.width, screen.height, screen.pixel_format
+        )
+    )
+    sys.stdout.write("PPOS_PALETTE ")
+    if screen.palette is None:
+        sys.stdout.write("-")
+    else:
+        separator = ""
+        for pen, rgb in screen.palette.items():
+            sys.stdout.write(
+                "{}{}:{:02x}{:02x}{:02x}".format(separator, pen, *rgb)
+            )
+            separator = ","
+    print()
+    print("PPOS_DATA")
+    view = memoryview(screen.buffer)
+    for offset in range(0, len(view), 128):
+        print(binascii.hexlify(view[offset : offset + 128]).decode())
+    print("PPOS_END")
 
 
 class Lamp:
