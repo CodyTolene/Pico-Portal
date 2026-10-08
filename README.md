@@ -14,6 +14,14 @@
         alt="Shop Pico Portal XL on Etsy" height="32" />
     </a>
   </div>
+  <div>
+  <a href="https://www.etsy.com/listing/4589952593">
+    <img
+      src=".github/images/coupon.svg"
+      alt="10% OFF - Use code PIPBOYDOTCOM"
+      width="400" />
+    </a>
+  </div>
 </div>
 
 ## Contents
