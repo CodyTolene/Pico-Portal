@@ -8,6 +8,7 @@
   <desc id="desc">Use code PIPBOYDOTCOM for 10 percent off.</desc>
   <defs>
     <linearGradient
+      id="discount"
       x1="0"
       x2="0"
       y1="0"
@@ -20,6 +21,7 @@
       />
     </linearGradient>
     <linearGradient
+      id="code"
       x1="0"
       x2="0"
       y1="0"
